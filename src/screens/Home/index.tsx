@@ -1,14 +1,14 @@
 import React, {useCallback, useState} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import {useFocusEffect} from '@react-navigation/native';
+import {Flex} from '@src/components';
 import {useCaches} from '@src/constants/store';
-import * as Animatable from 'react-native-animatable';
 import {RootStacksProp} from '../Screens';
-import Books from './components/Books';
-import ProfileBar from './components/ProfileBar';
-import PropertyCount from './components/PropertyCount';
-import UsedCounts from './components/UsedCounts';
+import Passwords from './components/Passwords';
+import Tabs from './components/Tabs';
+import Webs from './components/Webs';
+import Works from './components/Works';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -19,6 +19,7 @@ const Home: React.FC<MyProps> = props => {
   const {cared, global} = useCaches();
   const [focused, setFocused] = useState(false);
   const [views, setViews] = useState([]);
+  const [tab, setTab] = useState(0);
 
   useFocusEffect(
     useCallback(() => {
@@ -32,27 +33,8 @@ const Home: React.FC<MyProps> = props => {
 
   return (
     <View style={{flex: 1, backgroundColor: '#f0f0f0', position: 'relative'}}>
-      <ProfileBar />
-      <ScrollView contentInsetAdjustmentBehavior="automatic" bounces={false}>
-        <View style={{}}>
-          <View style={{height: 1}} />
-          {[
-            <PropertyCount />,
-            <Books />,
-            // <Counts diff={countsQuery.data?.data?.diff || []} />,
-            <UsedCounts />,
-          ].map((it, i) => (
-            <View key={i} style={{marginVertical: 1}}>
-              <Animatable.View
-                useNativeDriver
-                delay={i * 100}
-                animation={['slideInLeft', 'slideInRight'][i % 2]}>
-                {it}
-              </Animatable.View>
-            </View>
-          ))}
-        </View>
-      </ScrollView>
+      <Tabs onTabPress={setTab} tabIndex={tab} />
+      <View style={{flex: 1}}>{[<Works />, <Passwords />][tab]}</View>
     </View>
   );
 };

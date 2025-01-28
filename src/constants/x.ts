@@ -49,9 +49,9 @@ const styles = StyleSheet.create({
   card: {
     // iOS 阴影
     shadowColor: '#333',
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: {width: 0, height: 0.5},
     shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowRadius: 1,
     // Android 阴影
     elevation: 2,
     backgroundColor: 'white',

@@ -26,7 +26,7 @@ const BottomTabs = () => {
       label: '首页',
     },
     {
-      name: 'Financing',
+      name: 'Wallet',
       component: Financing,
       icon: require('./assets/menu_pig.png'),
       label: '理财',
@@ -35,10 +35,10 @@ const BottomTabs = () => {
       isSpecial: true,
     },
     {
-      name: 'Wallet',
+      name: 'NoteBook',
       component: Wallet,
-      icon: require('./assets/menu_wallet.png'),
-      label: '钱包',
+      icon: require('./assets/menu_plan.png'),
+      label: '事件',
     },
     {
       name: 'Me',

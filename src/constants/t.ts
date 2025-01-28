@@ -95,3 +95,36 @@ export interface OtherCountryStock {
   f14: string; // 中文
   f152: number;
 }
+
+export interface PaginationProps {
+  page: number;
+  pageSize: number;
+}
+
+export interface Jira {
+  _id: string;
+  id: string;
+  title: string;
+  message: string;
+  people: string[]; // 根据实际数据结构替换 unknown 类型
+  version: string;
+  complexity: number;
+  completeDate: number; // 时间戳（单位：毫秒）
+  updateTime: string; // 空字符串或日期字符串
+  createTime: number; // 时间戳（单位：毫秒）
+  userId: string;
+}
+
+export interface Password {
+  _id: string;            // 数据的唯一标识符
+  id: string;             // 项目的 ID
+  title: string;          // 标题
+  message: string;        // 消息（可以为空字符串）
+  name: string;           // 名称
+  password: string;       // 密码
+  platform: string;       // 平台类型（如 'web'）
+  updateTime: string;     // 更新时间（空字符串表示尚未设置）
+  createTime: number;     // 创建时间（时间戳，单位为毫秒）
+  link: string;           // 链接地址
+  userId: string;         // 用户 ID
+}
