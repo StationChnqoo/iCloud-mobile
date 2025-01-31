@@ -1,4 +1,4 @@
-import {RouteProp} from '@react-navigation/native';
+import {RouteProp, useFocusEffect} from '@react-navigation/native';
 import {Flex} from '@src/components';
 import {useCaches} from '@src/constants/store';
 import {Jira} from '@src/constants/t';
@@ -7,7 +7,7 @@ import TrifleService from '@src/service/TrifleService';
 import {useInfiniteQuery, useQueryClient} from '@tanstack/react-query';
 import moment from 'moment';
 import {useToast} from 'native-base';
-import React, {memo} from 'react';
+import React, {memo, useCallback} from 'react';
 import {
   FlatList,
   ListRenderItemInfo,
@@ -36,6 +36,13 @@ const Works: React.FC<MyProps> = memo(props => {
     // datas.value = result.data.data;
     return result.data;
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      jiraQuery.refetch();
+      return function () {};
+    }, []),
+  );
 
   const jiraQuery = useInfiniteQuery({
     initialPageParam: {page: 1},
@@ -71,17 +78,41 @@ const Works: React.FC<MyProps> = memo(props => {
           </Text>
         </Flex>
         <View style={{height: 1, marginVertical: 6, backgroundColor: '#eee'}} />
-        <Text style={{fontSize: 16, color: '#333'}}>{item.title}</Text>
-        <View style={{height: 5}} />
-        <Text style={{fontSize: 14, color: '#666'}}>
-          主要参与:{' '}
-          <Text style={{color: '#333'}}>{JSON.stringify(item.people)}</Text>
+        <Text
+          style={{
+            fontSize: 16,
+            color: '#333',
+            fontWeight: '500',
+            // textDecorationLine: 'underline',
+          }}>
+          {item.title}
         </Text>
         <View style={{height: 5}} />
-        <Text style={{fontSize: 14, color: '#666'}}>
-          备注:{' '}
-          <Text style={{color: '#333'}}>{item.message || '啥也没有 ~'}</Text>
-        </Text>
+        <Flex horizontal justify="space-between">
+          <Text style={{fontSize: 14, color: '#666'}}>{`主要参与: `}</Text>
+          <Text style={{color: '#999', fontSize: 14}}>
+            {JSON.stringify(item.people)}
+          </Text>
+        </Flex>
+        <View style={{height: 5}} />
+        <Flex horizontal justify="space-between">
+          <Text style={{fontSize: 14, color: '#666'}}>{`备注: `}</Text>
+          <Text style={styles.note}>{item.message || '啥也没有 ~'}</Text>
+        </Flex>
+        <View style={{height: 5}} />
+        <Flex horizontal justify="space-between">
+          <Text style={{fontSize: 14, color: '#666'}}>{`创建时间: `}</Text>
+          <Text style={{color: '#999', fontSize: 14}}>
+            {moment(item.createTime).format('YYYY/MM/DD HH:mm:ss')}
+          </Text>
+        </Flex>
+        <View style={{height: 5}} />
+        <Flex horizontal justify="space-between">
+          <Text style={{fontSize: 14, color: '#666'}}>{`更新时间: `}</Text>
+          <Text style={{color: '#999', fontSize: 14}}>
+            {moment(item.updateTime).fromNow()}
+          </Text>
+        </Flex>
       </TouchableOpacity>
     );
   };
@@ -131,6 +162,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 12,
     // marginVertical: 5,
     padding: 8,
+  },
+  note: {
+    color: '#333',
+    fontSize: 14,
+    lineHeight: 20,
+    textAlign: 'right',
+    flex: 1,
   },
 });
 

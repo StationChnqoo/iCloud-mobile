@@ -24,10 +24,10 @@ const NewModal = (props: MyProps) => {
   const {theme} = useCaches();
 
   const menus = [
-    {icon: require('./assets/calc.png'), label: '记账'},
-    {icon: require('./assets/friends.png'), label: '发帖'},
-    {icon: require('./assets/pencil.png'), label: '反馈'},
-    {icon: require('./assets/pig.png'), label: '捐赠'},
+    {icon: require('./assets/jira.png'), label: 'Jira'},
+    // {icon: require('./assets/friends.png'), label: '发帖'},
+    // {icon: require('./assets/pencil.png'), label: '反馈'},
+    // {icon: require('./assets/pig.png'), label: '捐赠'},
   ];
   const [index, setIndex] = useState(0);
 
@@ -36,10 +36,10 @@ const NewModal = (props: MyProps) => {
       <View
         style={{
           ...styles.view,
-          marginBottom: Platform.select({
-            ios: useSafeAreaInsets().bottom,
-            android: 16,
-          }),
+          // marginBottom: Platform.select({
+          //   ios: useSafeAreaInsets().bottom,
+          //   android: 16,
+          // }),
         }}>
         <Text style={{color: '#333', fontSize: x.scale(16), fontWeight: '500'}}>
           请选择
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 16,
     borderRadius: x.scale(16),
-    marginHorizontal: 16,
+    margin: 16,
   },
   botton: {
     borderWidth: 1,

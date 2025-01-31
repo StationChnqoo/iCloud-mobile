@@ -10,16 +10,19 @@ import {
 } from 'react-native';
 
 import {RouteProp} from '@react-navigation/native';
-import {Button, Flex, MoreButton, Star} from '@src/components';
+import {Button, DatePicker, Flex, MoreButton, Star} from '@src/components';
 import ToolBar from '@src/components/ToolBar';
 import {useCaches} from '@src/constants/store';
 import {Jira, JiraSchema} from '@src/constants/t';
 import TrifleService from '@src/service/TrifleService';
 import {produce} from 'immer';
 import moment from 'moment';
-import {Divider, ScrollView} from 'native-base';
+import {Divider, ScrollView, useToast} from 'native-base';
 import {RootStacksParams, RootStacksProp} from '../Screens';
 import PeopleSelectorModal from './components/PeopleSelectorModal';
+import {nanoid} from 'nanoid';
+import x from '@src/constants/x';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -31,6 +34,9 @@ const EditJira: React.FC<MyProps> = props => {
   const {theme, setUser} = useCaches();
   const [form, setForm] = useState<Jira>(JiraSchema.parse({}));
   const [open, setOpen] = useState(false);
+  const [timePicker, setTimePicker] = useState(false);
+
+  const toast = useToast();
 
   const updateForm = <K extends keyof Jira>(key: K, value: Jira[K]) => {
     let _form = produce(form, draft => {
@@ -56,15 +62,41 @@ const EditJira: React.FC<MyProps> = props => {
   const onDelete = async () => {
     Alert.alert('提示', '删除后不可恢复，请谨慎操作 ...', [
       {text: '取消', onPress: () => {}},
-      {text: '确定', onPress: () => {}},
+      {
+        text: '确定',
+        onPress: async () => {
+          const result = await new TrifleService().deleteJira(form.id);
+          toast.show({description: '删除成功'});
+          navigation.goBack();
+        },
+      },
     ]);
+  };
+
+  const onSave = async () => {
+    if (route.params?.id) {
+      await new TrifleService().updateJira(form);
+    } else {
+      await new TrifleService().insertJira(form);
+    }
+    toast.show({description: '修改成功'});
+    navigation.goBack();
   };
 
   const loadLine = () => <View style={styles.line} />;
 
   const loadJira = async () => {
-    let result = await new TrifleService().selectJira(route.params.id);
-    setForm(result.data);
+    let _form = JSON.parse(JSON.stringify(form)) as Jira;
+    if (route.params?.id) {
+      let result = await new TrifleService().selectJira(route.params.id);
+      _form = result.data;
+    } else {
+      _form.createTime = new Date().getTime();
+      _form.id = x.Strings.uuid();
+    }
+    _form.updateTime = new Date().getTime();
+    delete _form['_id'];
+    setForm(_form);
   };
 
   useEffect(() => {
@@ -146,7 +178,9 @@ const EditJira: React.FC<MyProps> = props => {
           <Flex horizontal justify="space-between" align="flex-end">
             <Text style={styles.label}>完成日期</Text>
             <MoreButton
-              onPress={() => {}}
+              onPress={() => {
+                setTimePicker(true);
+              }}
               label={
                 form.completeDate
                   ? moment(form.completeDate).format('YYYY/MM/DD')
@@ -162,7 +196,7 @@ const EditJira: React.FC<MyProps> = props => {
           {loadLine()}
           <Flex horizontal justify="space-between" align="flex-end">
             <Text style={styles.label}>修改时间</Text>
-            <Text>{moment(form.createTime).fromNow()}</Text>
+            <Text>{moment(form.updateTime).fromNow()}</Text>
           </Flex>
           {loadLine()}
           <Flex horizontal justify="space-between" align="flex-end">
@@ -224,7 +258,7 @@ const EditJira: React.FC<MyProps> = props => {
             ...styles.saveButton,
           }}
           textStyle={{color: '#fff'}}
-          onPress={() => {}}
+          onPress={onSave}
         />
       </Flex>
       <PeopleSelectorModal
@@ -234,6 +268,17 @@ const EditJira: React.FC<MyProps> = props => {
         }}
         onHide={() => {}}
         onConfirm={onPeopleAppend}
+      />
+      <DatePicker
+        value={new Date(form.completeDate)}
+        show={timePicker}
+        onClose={() => {
+          setTimePicker(false);
+        }}
+        onConfirm={ms => {
+          updateForm('completeDate', new Date(ms).getTime());
+          setTimePicker(false);
+        }}
       />
     </View>
   );
@@ -275,7 +320,6 @@ const styles = StyleSheet.create({
     height: 32,
     borderWidth: 1,
     borderColor: '#ccc',
-    marginVertical: 5,
     paddingHorizontal: 4,
   },
 });

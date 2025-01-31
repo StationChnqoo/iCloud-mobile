@@ -1,5 +1,6 @@
 import BottomSheet from './BottomSheet';
 import Button from './Button';
+import DatePicker from './DatePicker';
 import Flex from './Flex';
 import MoreButton from './MoreButton';
 import Star from './Star';
@@ -16,4 +17,5 @@ export {
   BottomSheet,
   MoreButton,
   Star,
+  DatePicker
 };

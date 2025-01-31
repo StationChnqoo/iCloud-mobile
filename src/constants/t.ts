@@ -112,8 +112,8 @@ export const JiraSchema = z.object({
   version: z.string().default(""),
   complexity: z.number().default(0),
   completeDate: z.number().default(0),
-  updateTime: z.string().default(Date.now().toString()),
-  createTime: z.string().default(Date.now().toString()),
+  updateTime: z.number().default(0),
+  createTime: z.number().default(0),
   userId: z.string().default(""),
 });
 

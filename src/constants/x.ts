@@ -30,16 +30,16 @@ const Strings = {
    * @returns
    */
   uuid: (length?: number) => {
-    const charset = [
-      ...Array.from(
-        {length: 26},
-        (_, i) =>
-          `${String.fromCharCode(i + 65)}${String.fromCharCode(i + 97)}`,
-      ),
-      ...Array.from({length: 10}, (_, i) => `${i}`),
-      '-',
-      '_',
-    ].join('');
+    const charset = ['_', '-']
+      .concat(
+        Array.from(
+          {length: 26},
+          (_, i) =>
+            `${String.fromCharCode(i + 65)}${String.fromCharCode(i + 97)}`,
+        ),
+      )
+      .concat(Array.from({length: 10}, (_, i) => `${i}`))
+      .join('');
     const id = customAlphabet(charset, length || 11);
     return id();
   },

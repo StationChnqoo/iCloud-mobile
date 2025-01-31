@@ -9,12 +9,18 @@ import Wallet from '../Wallet';
 import {useFocusEffect} from '@react-navigation/native';
 import NewModal from './components/NewModal';
 import Financing from '../Financing';
+import {RootStacksProp} from '../Screens';
 
 const Tab = createBottomTabNavigator();
-const BottomTabs = () => {
+interface MyProps {
+  navigation?: RootStacksProp;
+}
+
+const BottomTabs = (props: MyProps) => {
   const {theme} = useCaches();
   const [isShowNewModal, setIsShowNewModal] = useState(false);
   const [newIntent, setNewIntent] = useState(-1);
+  const {navigation} = props;
 
   const screens = [
     {
@@ -55,6 +61,20 @@ const BottomTabs = () => {
       };
     }, []),
   );
+
+  const onNewPress = () => {
+    if (newIntent >= 0) {
+      switch (newIntent) {
+        case 0:
+          navigation.navigate('EditJira');
+          break;
+        default:
+          break;
+      }
+      setIsShowNewModal(false);
+      setNewIntent(-1);
+    }
+  };
   return (
     <View style={{flex: 1}}>
       <Tab.Navigator>
@@ -115,12 +135,7 @@ const BottomTabs = () => {
           setNewIntent(t);
           setIsShowNewModal(false);
         }}
-        onHide={() => {
-          if (newIntent >= 0) {
-            setIsShowNewModal(false);
-            setNewIntent(-1);
-          }
-        }}
+        onHide={onNewPress}
       />
     </View>
   );

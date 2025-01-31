@@ -515,6 +515,8 @@ PODS:
     - React-perflogger (= 0.72.17)
   - RNCAsyncStorage (2.1.0):
     - React-Core
+  - RNDateTimePicker (7.6.2):
+    - React-Core
   - RNFastImage (8.6.3):
     - React-Core
     - SDWebImage (~> 5.11.1)
@@ -637,6 +639,7 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -753,6 +756,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNDateTimePicker:
+    :path: "../node_modules/@react-native-community/datetimepicker"
   RNFastImage:
     :path: "../node_modules/react-native-fast-image"
   RNGestureHandler:
@@ -824,6 +829,7 @@ SPEC CHECKSUMS:
   React-utils: 7959d4553163b61e01bbe83dbd80e58ca420aecb
   ReactCommon: 841449721eb2e004de2c3366844b0a03f329f2cb
   RNCAsyncStorage: cc6479c4acd84cc7004946946c8afe30b018184d
+  RNDateTimePicker: fc2e4f2795877d45e84d85659bebe627eba5c931
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNGestureHandler: 22d513d69ddc0b80430375c11f7c7cb4fabd8ffe
   RNReanimated: 726395a2fa2f04cea340274ba57a4e659bc0d9c1
