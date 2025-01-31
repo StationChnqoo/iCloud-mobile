@@ -23,6 +23,7 @@ import PeopleSelectorModal from './components/PeopleSelectorModal';
 import {nanoid} from 'nanoid';
 import x from '@src/constants/x';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -260,16 +261,20 @@ const EditJira: React.FC<MyProps> = props => {
         onHide={() => {}}
         onConfirm={onPeopleAppend}
       />
-      <DatePicker
-        value={new Date(form.completeDate)}
-        show={timePicker}
-        onClose={() => {
-          setTimePicker(false);
-        }}
+      <DateTimePickerModal
+        date={new Date(form.completeDate)}
+        isVisible={timePicker}
+        locale={'zh-CN'}
+        mode="date"
         onConfirm={ms => {
+          setTimePicker(false);
           updateForm('completeDate', new Date(ms).getTime());
+        }}
+        onCancel={() => {
           setTimePicker(false);
         }}
+        confirmTextIOS={'确认'}
+        cancelTextIOS={'取消'}
       />
     </View>
   );
