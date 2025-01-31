@@ -54,7 +54,7 @@ const PeopleSelectorModal = (props: MyProps) => {
           value={text}
         />
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={{height: 5}} />
+          <View style={{height: 10}} />
           <Flex
             horizontal
             style={{flexWrap: 'wrap', justifyContent: 'flex-start', gap: 10}}>
@@ -117,7 +117,6 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     paddingHorizontal: 10,
     paddingVertical: 5,
-    marginVertical: 5,
   },
 });
 export default PeopleSelectorModal;

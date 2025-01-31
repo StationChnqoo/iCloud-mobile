@@ -5,7 +5,8 @@ export default class Envs {
   variables = {
     debug: {
       // 192.168.0.103
-      [EnvKeys.HOST]: 'http://localhost:3000',
+      // http://localhost:3000
+      [EnvKeys.HOST]: 'http://192.168.31.247:3000',
     },
     release: {
       [EnvKeys.HOST]: 'https://service.cctv3.net',

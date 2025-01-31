@@ -117,21 +117,14 @@ const EditJira: React.FC<MyProps> = props => {
         <View style={{padding: 15}}>
           <Flex horizontal justify="space-between" align="flex-end">
             <Text style={styles.label}>ID</Text>
-            <TextInput
-              placeholder="请输入ID"
-              style={{fontSize: 14, lineHeight: 16, flex: 1}}
-              textAlign={'right'}
-              multiline
-              value={form.id}
-              editable={false}
-            />
+            <Text>{form.id}</Text>
           </Flex>
           {loadLine()}
           <Flex horizontal justify="space-between" align="flex-end">
             <Text style={styles.label}>版本号</Text>
             <TextInput
               placeholder="版本号"
-              style={{fontSize: 14, lineHeight: 16, flex: 1}}
+              style={styles.input}
               textAlign={'right'}
               multiline
               value={form.version}
@@ -151,10 +144,9 @@ const EditJira: React.FC<MyProps> = props => {
           {loadLine()}
           <Flex horizontal justify="space-between" align="flex-end">
             <Text style={styles.label}>Jira简介</Text>
-            <View style={{width: 32}} />
             <TextInput
               placeholder="Jira简介"
-              style={{fontSize: 14, lineHeight: 16, flex: 1}}
+              style={{...styles.input, height: undefined}}
               textAlign={'right'}
               multiline
               value={form.title}
@@ -164,10 +156,9 @@ const EditJira: React.FC<MyProps> = props => {
           {loadLine()}
           <Flex horizontal justify="space-between" align="flex-end">
             <Text style={styles.label}>Jira备注</Text>
-            <View style={{width: 32}} />
             <TextInput
               placeholder="Jira备注"
-              style={{fontSize: 14, lineHeight: 16, flex: 1}}
+              style={{...styles.input, height: undefined}}
               textAlign={'right'}
               multiline
               value={form.message}
@@ -203,7 +194,6 @@ const EditJira: React.FC<MyProps> = props => {
             <Text style={styles.label}>参与人员</Text>
             <MoreButton
               onPress={() => {
-                console.log('...');
                 setOpen(true);
               }}
               label={
@@ -213,6 +203,7 @@ const EditJira: React.FC<MyProps> = props => {
               }
             />
           </Flex>
+          <View style={{height: 5}} />
           <View style={styles.tags}>
             {form.people.map((it, i) => (
               <Flex horizontal key={i} style={styles.tag}>
@@ -288,6 +279,8 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     color: '#333',
+    lineHeight: 24,
+    textAlignVertical: 'center',
   },
   value: {
     fontSize: 14,
@@ -321,6 +314,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     paddingHorizontal: 4,
+  },
+  input: {
+    fontSize: 14,
+    lineHeight: 16,
+    flex: 1,
+    padding: 0,
+    height: 24,
   },
 });
 
