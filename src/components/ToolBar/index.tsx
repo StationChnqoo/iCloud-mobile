@@ -1,3 +1,4 @@
+import x from '@src/constants/x';
 import {RootStacksProp} from '@src/screens/Screens';
 import React from 'react';
 import {
@@ -21,7 +22,7 @@ const IMAGE_SIZE = 16;
 const ToolBar: React.FC<MyProps> = props => {
   const {title, onBackPress} = props;
   return (
-    <View style={{}}>
+    <View style={{backgroundColor: '#fff', ...x.Styles.CARD}}>
       <View
         style={{
           backgroundColor: '#fff',

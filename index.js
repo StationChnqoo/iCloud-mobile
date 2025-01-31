@@ -1,14 +1,13 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+import { NativeBaseProvider } from "native-base";
 import React, { useEffect } from 'react';
 import { AppRegistry, View } from 'react-native';
-import { name as appName } from './app.json';
-import { ToastProvider } from './src/components';
-import Screens from './src/screens/Screens';
-import moment from 'moment';
-import 'react-native-reanimated';
-import 'moment/locale/zh-cn';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-
+import 'react-native-reanimated';
+import { name as appName } from './app.json';
+import Screens from './src/screens/Screens';
 const queryClient = new QueryClient();
 
 const Bookkeeping = () => {
@@ -20,11 +19,11 @@ const Bookkeeping = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <GestureHandlerRootView>
-        <ToastProvider>
+        <NativeBaseProvider>
           <View style={{ flex: 1 }}>
             <Screens />
           </View>
-        </ToastProvider>
+        </NativeBaseProvider>
       </GestureHandlerRootView>
     </QueryClientProvider>
   );

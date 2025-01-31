@@ -9,7 +9,6 @@ import {
 
 import {useFocusEffect} from '@react-navigation/native';
 import {Flex} from '@src/components';
-import {useToast} from '@src/components/ToastProvider';
 import {BooksTemplates} from '@src/constants/config';
 import {useCaches} from '@src/constants/store';
 import x from '@src/constants/x';
@@ -27,8 +26,6 @@ interface MyProps {
 const Wallet: React.FC<MyProps> = props => {
   const {navigation} = props;
   const {theme, setUser, user} = useCaches();
-  const toast = useToast();
-
   const [focused, setFocused] = useState(false);
 
   useFocusEffect(

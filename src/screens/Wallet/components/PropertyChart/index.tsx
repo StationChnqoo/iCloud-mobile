@@ -7,7 +7,6 @@ import {
   View,
 } from 'react-native';
 
-import {useToast} from '@src/components/ToastProvider';
 import {useCaches} from '@src/constants/store';
 import {Property} from '@src/constants/t';
 import x from '@src/constants/x';
@@ -24,7 +23,6 @@ interface MyProps {
 const PropertyChart: React.FC<MyProps> = props => {
   const {navigation, datas} = props;
   const {theme, setUser} = useCaches();
-  const toast = useToast();
 
   const buildGroupDatas = (label: string, key: keyof Property) => {
     const colors = produce(BooksTemplates, draft => {

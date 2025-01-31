@@ -8,7 +8,6 @@ import My from '../My';
 import Wallet from '../Wallet';
 import {useFocusEffect} from '@react-navigation/native';
 import NewModal from './components/NewModal';
-import {useToast} from '@src/components/ToastProvider';
 import Financing from '../Financing';
 
 const Tab = createBottomTabNavigator();
@@ -16,7 +15,6 @@ const BottomTabs = () => {
   const {theme} = useCaches();
   const [isShowNewModal, setIsShowNewModal] = useState(false);
   const [newIntent, setNewIntent] = useState(-1);
-  const toaster = useToast();
 
   const screens = [
     {
@@ -121,7 +119,6 @@ const BottomTabs = () => {
           if (newIntent >= 0) {
             setIsShowNewModal(false);
             setNewIntent(-1);
-            toaster.show('HelloWorld.');
           }
         }}
       />

@@ -8,7 +8,6 @@ import {
   View,
 } from 'react-native';
 
-import {useToast} from '@src/components/ToastProvider';
 import {useCaches} from '@src/constants/store';
 import {LoginInputAction} from '@src/constants/t';
 import x from '@src/constants/x';
@@ -27,20 +26,16 @@ const Inputer: React.FC<MyProps> = props => {
   const {theme, setUser} = useCaches();
   const [code, setCode] = useState('');
   const [password, setPassword] = useState('');
-  const toast = useToast();
 
   const submit = async () => {
     if (code && password) {
       let result = await new NextService().selectLogin(code, password);
       if (result.success) {
         setUser(result.data);
-        toast.show('登录成功 ~');
         // navigation.goBack();
       } else {
-        toast.show(result.message);
       }
     } else {
-      toast.show('请填完后登录 ~');
     }
   };
 

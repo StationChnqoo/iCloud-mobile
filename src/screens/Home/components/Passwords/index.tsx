@@ -32,6 +32,7 @@ const Passwords: React.FC<MyProps> = memo(props => {
     initialPageParam: {page: 1},
     queryKey: ['passwordsQuery'],
     retryOnMount: false,
+    refetchOnMount: false,
     queryFn: params => loadDatas(params.pageParam.page),
     getNextPageParam: (lastPage, pages) => {
       return {page: lastPage.page + 1};
@@ -86,7 +87,7 @@ const Passwords: React.FC<MyProps> = memo(props => {
   return (
     <View style={{flex: 1}}>
       <FlatList
-        ListHeaderComponent={() => <View style={{height: 10}} />}
+        ListHeaderComponent={<View style={{height: 10}} />}
         data={passwordsQuery.data?.pages.map(it => it.datas).flat() || []}
         onEndReached={() => {
           passwordsQuery.fetchNextPage();
@@ -94,12 +95,13 @@ const Passwords: React.FC<MyProps> = memo(props => {
         renderItem={loadItem}
         keyExtractor={(it, i) => `${it.id}:${i}`}
         onEndReachedThreshold={0.1}
+        removeClippedSubviews={true}
         ItemSeparatorComponent={() => <View style={{height: 10}} />}
-        ListFooterComponent={() => (
+        ListFooterComponent={
           <Flex style={{marginVertical: 12}}>
             <Text style={{fontSize: 12, color: '#999'}}>滑动到底了 ...</Text>
           </Flex>
-        )}
+        }
       />
     </View>
   );

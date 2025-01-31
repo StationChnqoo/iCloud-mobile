@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 
 import {Button, Flex} from '@src/components';
-import {useToast} from '@src/components/ToastProvider';
 import ToolBar from '@src/components/ToolBar';
 import {useCaches} from '@src/constants/store';
 import x from '@src/constants/x';
@@ -23,7 +22,6 @@ interface MyProps {
 const Login: React.FC<MyProps> = props => {
   const {navigation} = props;
   const {theme, setUser} = useCaches();
-  const toast = useToast();
   const [hidePassword, setHidePassword] = useState(true);
   const [code, setCode] = useState('');
   const [password, setPassword] = useState('');
@@ -33,13 +31,10 @@ const Login: React.FC<MyProps> = props => {
       let result = await new NextService().selectLogin(code, password);
       if (result.success) {
         setUser(result.data);
-        toast.show('登录成功 ~');
         navigation.goBack();
       } else {
-        toast.show(result.message);
       }
     } else {
-      toast.show('请填完后登录 ~');
     }
   };
 

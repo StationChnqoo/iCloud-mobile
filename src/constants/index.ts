@@ -1,6 +1,6 @@
 enum Paths {
   walletPlan = '/api/wallet/plan',
-  trifleKpi = '/api/trifle/kpi',
+  trifleJira = '/api/trifle/jira',
   triflePassword = '/api/trifle/password',
   walletCare = '/api/wallet/care',
   walletProperty = '/api/wallet/property',

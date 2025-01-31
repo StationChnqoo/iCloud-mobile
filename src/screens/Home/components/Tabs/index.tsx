@@ -23,9 +23,9 @@ const Tabs: React.FC<MyProps> = props => {
   const {theme, user} = useCaches();
   
   const tabs = [
-    {label: '工作', value: 'kpi'},
+    {label: '工作', value: 'jira'},
     {label: '密码', value: 'password'},
-    // {label: '网站', value: 'web'},
+    // {label: '刘谦', value: 'magic'},
   ];
   const sideSize = {height: x.scale(48), width: x.scale(48)};
   return (

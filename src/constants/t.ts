@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export interface RealTimePrice {
   /** 股票价格 * 1000 */
   f43?: number;
@@ -101,20 +103,22 @@ export interface PaginationProps {
   pageSize: number;
 }
 
-export interface Jira {
-  _id: string;
-  id: string;
-  title: string;
-  message: string;
-  people: string[]; // 根据实际数据结构替换 unknown 类型
-  version: string;
-  complexity: number;
-  completeDate: number; // 时间戳（单位：毫秒）
-  updateTime: string; // 空字符串或日期字符串
-  createTime: number; // 时间戳（单位：毫秒）
-  userId: string;
-}
+export const JiraSchema = z.object({
+  _id: z.string().default(""),
+  id: z.string().default(""),
+  title: z.string().default(""),
+  message: z.string().default(""),
+  people: z.array(z.string()).default([]),
+  version: z.string().default(""),
+  complexity: z.number().default(0),
+  completeDate: z.number().default(0),
+  updateTime: z.string().default(Date.now().toString()),
+  createTime: z.string().default(Date.now().toString()),
+  userId: z.string().default(""),
+});
 
+// 生成默认的空对象
+export type Jira = z.infer<typeof JiraSchema>;
 export interface Password {
   _id: string;            // 数据的唯一标识符
   id: string;             // 项目的 ID

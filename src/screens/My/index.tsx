@@ -7,7 +7,6 @@ import {RootStacksProp} from '../Screens';
 import Stocks from './components/Stocks';
 import Config from './components/Config';
 import Profile from './components/Profile';
-import {useToast} from '@src/components/ToastProvider';
 import Global from './components/Global';
 
 interface MyProps {
@@ -17,7 +16,6 @@ interface MyProps {
 const My: React.FC<MyProps> = props => {
   const {navigation} = props;
   const {setUser} = useCaches();
-  const toaster = useToast();
 
   const onLoginPress = (logined: boolean) => {
     if (logined) {
@@ -27,7 +25,6 @@ const My: React.FC<MyProps> = props => {
           text: '确认',
           onPress: () => {
             setUser(null);
-            toaster.show('退出成功 ~');
             setTimeout(() => {
               navigation.navigate('Login');
             }, 1000);

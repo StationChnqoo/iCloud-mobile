@@ -1,14 +1,13 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 
 import {useFocusEffect} from '@react-navigation/native';
-import {Flex} from '@src/components';
 import {useCaches} from '@src/constants/store';
 import {RootStacksProp} from '../Screens';
 import Passwords from './components/Passwords';
 import Tabs from './components/Tabs';
-import Webs from './components/Webs';
 import Works from './components/Works';
+import Magics from './components/Magics';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -31,10 +30,29 @@ const Home: React.FC<MyProps> = props => {
     }, []),
   );
 
+  const tabComponents = useMemo(
+    () => [
+      <Works
+        key="works"
+        onJiraPress={id => {
+          navigation.navigate('EditJira', {id});
+        }}
+      />,
+      <Passwords key="passwords" />,
+    ],
+    [],
+  );
+
   return (
     <View style={{flex: 1, backgroundColor: '#f0f0f0', position: 'relative'}}>
       <Tabs onTabPress={setTab} tabIndex={tab} />
-      <View style={{flex: 1}}>{[<Works />, <Passwords />][tab]}</View>
+      <View style={{flex: 1}}>
+        {tabComponents.map((it, i) => (
+          <View key={i} style={{display: i == tab ? 'flex' : 'none', flex: 1}}>
+            {tabComponents[i]}
+          </View>
+        ))}
+      </View>
     </View>
   );
 };
