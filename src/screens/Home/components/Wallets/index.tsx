@@ -1,9 +1,10 @@
 import {useFocusEffect} from '@react-navigation/native';
 import {Flex} from '@src/components';
 import {useCaches} from '@src/constants/store';
-import {Password} from '@src/constants/t';
-import TrifleService from '@src/service/TrifleService';
+import {Property} from '@src/constants/t';
+import WalletService from '@src/service/WalletService';
 import {useInfiniteQuery, useQueryClient} from '@tanstack/react-query';
+import {produce} from 'immer';
 import moment from 'moment';
 import React, {memo, useCallback} from 'react';
 import {
@@ -20,23 +21,22 @@ interface MyProps {
   onItemPress: (id: string) => void;
 }
 
-const Passwords: React.FC<MyProps> = memo(props => {
+const Wallets: React.FC<MyProps> = memo(props => {
   const {onItemPress} = props;
   const {theme, user} = useCaches();
   const queryClient = useQueryClient();
 
   const loadDatas = async (page: number) => {
-    let result = await new TrifleService().selectPasswords({
+    let result = await new WalletService().selectProperties({
       page,
       pageSize: 10,
     });
-    // datas.value = result.data.data;
     return result.data;
   };
 
-  const passwordsQuery = useInfiniteQuery({
+  const propertiesQuery = useInfiniteQuery({
     initialPageParam: {page: 1},
-    queryKey: ['passwordsQuery'],
+    queryKey: ['propertiesQuery'],
     retryOnMount: false,
     refetchOnMount: false,
     queryFn: params => loadDatas(params.pageParam.page),
@@ -47,13 +47,22 @@ const Passwords: React.FC<MyProps> = memo(props => {
 
   useFocusEffect(
     useCallback(() => {
-      passwordsQuery.refetch();
+      propertiesQuery.refetch();
       return function () {};
     }, []),
   );
 
-  const loadItem = (info: ListRenderItemInfo<Password>) => {
+  const loadItem = (info: ListRenderItemInfo<Property>) => {
     const {item} = info;
+    const maps = {
+      wechat: '微信',
+      alipay: '支付宝',
+      unionpay: '银联',
+      cash: '现金',
+      carpooling: '顺风车',
+      eastmoney: '股票',
+      housefund: '公积金',
+    };
     return (
       <TouchableOpacity
         style={styles.item}
@@ -62,40 +71,34 @@ const Passwords: React.FC<MyProps> = memo(props => {
           onItemPress(item.id);
         }}>
         <Flex horizontal justify={'space-between'}>
-          <Flex horizontal>
-            <Text>{{app: '📱', web: '🌏'}[item.platform]}</Text>
-            <View style={{width: 4}} />
-            <Text style={{fontSize: 14, color: '#999'}}>{item.id}</Text>
-          </Flex>
-          <View style={{width: 32}} />
-          <Text style={{fontSize: 14, color: '#666'}}>
-            {moment(item.createTime).format('YYYY/MM/DD')}
+          <Text style={{fontSize: 14, color: '#999'}}>{item.id}</Text>
+          <Text style={{fontSize: 14, color: '#333'}}>
+            {moment(item.settleDate).format('YYYY年ww周').replace(' ', '')}
           </Text>
         </Flex>
         <View style={{height: 1, marginVertical: 6, backgroundColor: '#eee'}} />
-        <Text style={{fontSize: 16, color: '#333'}}>{item.title}</Text>
-        <View style={{height: 5}} />
-        <Text
-          style={{
-            fontSize: 14,
-            color: '#666',
-            textDecorationLine: item?.link ? 'underline' : 'none',
-          }}>
-          {item.link || '--'}
-        </Text>
+        <Flex
+          horizontal
+          style={{flexWrap: 'wrap', gap: 10}}
+          justify={'flex-start'}>
+          {Object.keys(maps).map((it, i) => (
+            <Flex horizontal justify="flex-start" key={i}>
+              <Text
+                style={{fontSize: 14, color: '#333'}}>{`${maps[it]}: `}</Text>
+              <Text style={{fontSize: 14, color: '#999'}}>{`${
+                Array.isArray(item[it])
+                  ? `[${item[it].map(t => `${t}K`).join(' , ')}]`
+                  : `${item[it]}K`
+              }`}</Text>
+            </Flex>
+          ))}
+        </Flex>
         <View style={{height: 10}} />
-        <Text style={{fontSize: 14, color: '#666'}}>
-          账号: <Text style={{color: '#333'}}>{item.name}</Text>
-        </Text>
-        <View style={{height: 5}} />
-        <Text style={{fontSize: 14, color: '#666'}}>
-          密码: <Text style={{color: '#333'}}>{item.password}</Text>
-        </Text>
-        <View style={{height: 5}} />
-        <Text style={{fontSize: 14, color: '#666'}}>
-          备注:{' '}
-          <Text style={{color: '#333'}}>{item.message || '啥也没有 ~'}</Text>
-        </Text>
+        <Flex justify="flex-end" horizontal>
+          <Text style={{color: theme, fontSize: 16}}>
+            {parseFloat(item.sum).toFixed(2)}K
+          </Text>
+        </Flex>
       </TouchableOpacity>
     );
   };
@@ -105,17 +108,17 @@ const Passwords: React.FC<MyProps> = memo(props => {
       <FlatList
         refreshControl={
           <RefreshControl
-            refreshing={passwordsQuery.isFetching}
+            refreshing={propertiesQuery.isFetching}
             onRefresh={() => {
-              queryClient.resetQueries({queryKey: ['passwordsQuery']});
-              passwordsQuery.refetch();
+              queryClient.resetQueries({queryKey: ['propertiesQuery']});
+              propertiesQuery.refetch();
             }}
           />
         }
         ListHeaderComponent={<View style={{height: 10}} />}
-        data={passwordsQuery.data?.pages.map(it => it.datas).flat() || []}
+        data={propertiesQuery.data?.pages.map(it => it.datas).flat() || []}
         onEndReached={() => {
-          passwordsQuery.fetchNextPage();
+          propertiesQuery.fetchNextPage();
         }}
         renderItem={loadItem}
         keyExtractor={(it, i) => `${it.id}:${i}`}
@@ -146,4 +149,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Passwords;
+export default Wallets;

@@ -1,16 +1,14 @@
 import {Flex} from '@src/components';
 import {useCaches} from '@src/constants/store';
 import x from '@src/constants/x';
-import React, {useState} from 'react';
+import React from 'react';
 import {
-  Image,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import FastImage from 'react-native-fast-image';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface MyProps {
@@ -21,11 +19,11 @@ interface MyProps {
 const Tabs: React.FC<MyProps> = props => {
   const {tabIndex, onTabPress} = props;
   const {theme, user} = useCaches();
-  
+
   const tabs = [
     {label: '工作', value: 'jira'},
     {label: '密码', value: 'password'},
-    // {label: '刘谦', value: 'magic'},
+    {label: '钱包', value: 'wallet'},
   ];
   const sideSize = {height: x.scale(48), width: x.scale(48)};
   return (
@@ -42,7 +40,12 @@ const Tabs: React.FC<MyProps> = props => {
               }}>
               <Flex>
                 <Text
-                  style={{fontSize: 16, color: tabIndex == i ? theme : '#666'}}>
+                  style={{
+                    fontSize: 16,
+                    ...(tabIndex == i
+                      ? {color: theme, fontWeight: '500'}
+                      : {color: '#666', fontWeight: 'normal'}),
+                  }}>
                   {it.label}
                 </Text>
                 <View style={{height: 4}} />

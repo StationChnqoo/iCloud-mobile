@@ -1,16 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Alert,
-  Image,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Alert, StyleSheet, Text, TextInput, View} from 'react-native';
 
 import {RouteProp} from '@react-navigation/native';
-import {Button, Flex, MoreButton, Star} from '@src/components';
+import {Button, DeleteableTags, Flex, MoreButton, Star} from '@src/components';
 import ToolBar from '@src/components/ToolBar';
 import {useCaches} from '@src/constants/store';
 import {Jira, JiraSchema} from '@src/constants/t';
@@ -207,27 +199,12 @@ const EditJira: React.FC<MyProps> = props => {
             />
           </Flex>
           <View style={{height: 5}} />
-          <View style={styles.tags}>
-            {form.people.map((it, i) => (
-              <Flex horizontal key={i} style={styles.tag}>
-                <Text
-                  style={{color: '#333', fontSize: 16, paddingHorizontal: 5}}>
-                  {it}
-                </Text>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  hitSlop={{top: 5, bottom: 5, left: 5, right: 5}}
-                  onPress={() => {
-                    onPeopleDelete(i);
-                  }}>
-                  <Image
-                    source={require('./assets/delete.png')}
-                    style={{height: 24, width: 24, tintColor: '#ccc'}}
-                  />
-                </TouchableOpacity>
-              </Flex>
-            ))}
-          </View>
+          <DeleteableTags
+            datas={form.people}
+            onDelete={index => {
+              onPeopleDelete(index);
+            }}
+          />
         </View>
       </ScrollView>
       <Divider />
@@ -308,19 +285,6 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: '#eee',
     marginVertical: 15,
-  },
-  tags: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 5,
-    marginTop: 5,
-  },
-  tag: {
-    borderRadius: 10,
-    height: 32,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    paddingHorizontal: 4,
   },
   input: {
     fontSize: 16,

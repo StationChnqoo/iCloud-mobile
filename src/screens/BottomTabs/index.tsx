@@ -71,6 +71,9 @@ const BottomTabs = (props: MyProps) => {
         case 1:
           navigation.navigate('EditPassword');
           break;
+        case 2:
+          navigation.navigate('EditWallet');
+          break;
         default:
           break;
       }

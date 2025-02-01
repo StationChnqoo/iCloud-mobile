@@ -71,21 +71,23 @@ export enum EnvKeys {
   HOST = 0,
 }
 
-export interface Property {
-  _id: string; // 唯一标识符
-  id: string; // 交易 ID
-  wechat: string; // 微信支付金额（字符串类型，可能包含小数）
-  alipay: string; // 支付宝支付金额（字符串类型，可能包含小数）
-  unionpay: string; // 银联支付金额（字符串类型，可能包含小数）
-  cash: string; // 现金支付金额（字符串类型，可能包含小数）
-  carpooling: string; // 拼车支付金额（字符串类型，可能包含小数）
-  eastmoney: string; // 东方财富支付金额（字符串类型，可能包含小数）
-  housefund: string; // 公积金支付金额（字符串类型，可能包含小数）
-  createTime: number; // 创建时间（时间戳，单位为毫秒）
-  settleDate: number; // 结算日期（时间戳，单位为毫秒）
-  sum: string; // 总金额（字符串类型，可能包含小数）
-  userId: string; // 用户 ID
-}
+export const PropertySchema = z.object({
+  _id: z.string().default(''),
+  id: z.string().default(''),
+  wechat: z.string().default('0'),
+  alipay: z.string().default('0'),
+  unionpay: z.string().default('0'),
+  cash: z.array(z.string()).default([]),
+  carpooling: z.array(z.string()).default([]),
+  eastmoney: z.string().default('0'),
+  housefund: z.string().default('0'),
+  createTime: z.number().default(Date.now()),
+  settleDate: z.number().default(Date.now()),
+  sum: z.string().default('0'),
+  userId: z.string().default(''),
+});
+
+export type Property = z.infer<typeof PropertySchema>;
 
 export interface OtherCountryStock {
   f1: number;

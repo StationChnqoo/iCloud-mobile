@@ -8,6 +8,7 @@ import Passwords from './components/Passwords';
 import Tabs from './components/Tabs';
 import Works from './components/Works';
 import Magics from './components/Magics';
+import Wallets from './components/Wallets';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -42,6 +43,12 @@ const Home: React.FC<MyProps> = props => {
         key="passwords"
         onItemPress={id => {
           navigation.navigate('EditPassword', {id});
+        }}
+      />,
+      <Wallets
+        key="wallets"
+        onItemPress={id => {
+          navigation.navigate('EditWallet', {id});
         }}
       />,
     ],

@@ -26,6 +26,7 @@ const BottomSheet: React.FC<MyProps> = props => {
       useNativeDriver={true}
       hideModalContentWhileAnimating={true}
       statusBarTranslucent={false}
+      backdropOpacity={0.58}
       style={{margin: 0, padding: 0, justifyContent: 'flex-end'}}>
       {children}
     </Modal>

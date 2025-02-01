@@ -51,7 +51,7 @@ const Works: React.FC<MyProps> = memo(props => {
     refetchOnMount: false,
     queryFn: params => loadDatas(params.pageParam.page),
     getNextPageParam: (lastPage, pages) => {
-      return {page: lastPage.page + 1};
+      return lastPage.hasNext ? {page: lastPage.page + 1} : undefined;
     },
   });
 
