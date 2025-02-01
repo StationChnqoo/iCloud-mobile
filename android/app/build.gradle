@@ -52,7 +52,7 @@ android {
         variant.outputs.all { output ->
             // def buildTypeName = variant.buildType.name
             def abi = output.getFilter(com.android.build.OutputFile.ABI)
-            def newName = "${appName}_${abi ?: "universal"}.apk"
+            def newName = "${appName}@${abi ?: "universal"}.apk"
             outputFileName = newName
         }
     }
