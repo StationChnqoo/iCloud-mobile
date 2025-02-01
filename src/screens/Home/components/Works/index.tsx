@@ -77,7 +77,9 @@ const Works: React.FC<MyProps> = memo(props => {
             {moment(item.completeDate).format('YYYY/MM/DD')}
           </Text>
         </Flex>
-        <View style={{height: 1, marginVertical: 10, backgroundColor: '#eee'}} />
+        <View
+          style={{height: 1, marginVertical: 10, backgroundColor: '#eee'}}
+        />
         <Text
           style={{
             fontSize: 16,
@@ -122,7 +124,9 @@ const Works: React.FC<MyProps> = memo(props => {
       <FlatList
         refreshControl={
           <RefreshControl
-            refreshing={jiraQuery.isFetching}
+            refreshing={
+              jiraQuery.isFetching && jiraQuery.data?.pages?.[0]?.page === 1
+            }
             onRefresh={() => {
               queryClient.resetQueries({queryKey: ['jiraQuery']});
               jiraQuery.refetch();

@@ -76,7 +76,9 @@ const Wallets: React.FC<MyProps> = memo(props => {
             {moment(item.settleDate).format('YYYY年ww周').replace(' ', '')}
           </Text>
         </Flex>
-        <View style={{height: 1, marginVertical: 10, backgroundColor: '#eee'}} />
+        <View
+          style={{height: 1, marginVertical: 10, backgroundColor: '#eee'}}
+        />
         <Flex
           horizontal
           style={{flexWrap: 'wrap', gap: 10}}
@@ -108,7 +110,10 @@ const Wallets: React.FC<MyProps> = memo(props => {
       <FlatList
         refreshControl={
           <RefreshControl
-            refreshing={propertiesQuery.isFetching}
+            refreshing={
+              propertiesQuery.isFetching &&
+              propertiesQuery.data?.pages?.[0]?.page === 1
+            }
             onRefresh={() => {
               queryClient.resetQueries({queryKey: ['propertiesQuery']});
               propertiesQuery.refetch();

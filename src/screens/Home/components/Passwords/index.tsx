@@ -110,7 +110,10 @@ const Passwords: React.FC<MyProps> = memo(props => {
       <FlatList
         refreshControl={
           <RefreshControl
-            refreshing={passwordsQuery.isFetching}
+            refreshing={
+              passwordsQuery.isFetching &&
+              passwordsQuery.data?.pages?.[0]?.page === 1
+            }
             onRefresh={() => {
               queryClient.resetQueries({queryKey: ['passwordsQuery']});
               passwordsQuery.refetch();
