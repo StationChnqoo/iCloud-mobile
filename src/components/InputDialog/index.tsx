@@ -49,9 +49,9 @@ const InputDialog: React.FC<MyProps> = props => {
         <Text style={{color: '#333', fontWeight: '500', fontSize: 16}}>
           {title}
         </Text>
-        <View style={{height: 12}} />
+        <View style={{height: 15}} />
         <Text style={{color: '#333', fontSize: 14}}>{message}</Text>
-        <View style={{height: 12}} />
+        <View style={{height: 15}} />
         <TextInput
           style={styles.input}
           placeholder={''}
@@ -59,7 +59,7 @@ const InputDialog: React.FC<MyProps> = props => {
           onChangeText={setText}
           underlineColorAndroid={'transparent'}
         />
-        <View style={{height: 24}} />
+        <View style={{height: 30}} />
         <Flex horizontal justify={'flex-end'}>
           <TouchableOpacity
             activeOpacity={0.8}

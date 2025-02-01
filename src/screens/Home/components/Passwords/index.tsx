@@ -73,10 +73,10 @@ const Passwords: React.FC<MyProps> = memo(props => {
           </Text>
         </Flex>
         <View
-          style={{height: 1, marginVertical: 12, backgroundColor: '#eee'}}
+          style={{height: 1, marginVertical: 10, backgroundColor: '#eee'}}
         />
         <Text style={{fontSize: 16, color: '#333'}}>{item.title}</Text>
-        <View style={{height: 5}} />
+        <View style={{height: 10}} />
         <Text
           style={{
             fontSize: 14,
@@ -96,7 +96,7 @@ const Passwords: React.FC<MyProps> = memo(props => {
             </Text>
           </Text>
         </Flex>
-        <View style={{height: 5}} />
+        <View style={{height: 10}} />
         <Text style={{fontSize: 14, color: '#666'}}>
           {`备注: `}
           <Text style={{color: '#333'}}>{item.message || '啥也没有 ~'}</Text>

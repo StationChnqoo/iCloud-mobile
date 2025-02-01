@@ -73,11 +73,11 @@ const Works: React.FC<MyProps> = memo(props => {
             <Text style={{fontSize: 14, color: '#999'}}>{item.id}</Text>
           </Flex>
           <View style={{width: 32}} />
-          <Text style={{fontSize: 14, color: '#666'}}>
+          <Text style={{fontSize: 14, color: '#333'}}>
             {moment(item.completeDate).format('YYYY/MM/DD')}
           </Text>
         </Flex>
-        <View style={{height: 1, marginVertical: 6, backgroundColor: '#eee'}} />
+        <View style={{height: 1, marginVertical: 10, backgroundColor: '#eee'}} />
         <Text
           style={{
             fontSize: 16,
@@ -94,19 +94,19 @@ const Works: React.FC<MyProps> = memo(props => {
             {JSON.stringify(item.people)}
           </Text>
         </Flex>
-        <View style={{height: 5}} />
+        <View style={{height: 10}} />
         <Flex horizontal justify="space-between">
           <Text style={{fontSize: 14, color: '#666'}}>{`备注: `}</Text>
           <Text style={styles.note}>{item.message || '啥也没有 ~'}</Text>
         </Flex>
-        <View style={{height: 5}} />
+        <View style={{height: 10}} />
         <Flex horizontal justify="space-between">
           <Text style={{fontSize: 14, color: '#666'}}>{`创建时间: `}</Text>
           <Text style={{color: '#999', fontSize: 14}}>
             {moment(item.createTime).format('YYYY/MM/DD HH:mm:ss')}
           </Text>
         </Flex>
-        <View style={{height: 5}} />
+        <View style={{height: 10}} />
         <Flex horizontal justify="space-between">
           <Text style={{fontSize: 14, color: '#666'}}>{`更新时间: `}</Text>
           <Text style={{color: '#999', fontSize: 14}}>
