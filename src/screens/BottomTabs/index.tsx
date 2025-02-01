@@ -68,6 +68,9 @@ const BottomTabs = (props: MyProps) => {
         case 0:
           navigation.navigate('EditJira');
           break;
+        case 1:
+          navigation.navigate('EditPassword');
+          break;
         default:
           break;
       }

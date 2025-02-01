@@ -38,7 +38,12 @@ const Home: React.FC<MyProps> = props => {
           navigation.navigate('EditJira', {id});
         }}
       />,
-      <Passwords key="passwords" />,
+      <Passwords
+        key="passwords"
+        onItemPress={id => {
+          navigation.navigate('EditPassword', {id});
+        }}
+      />,
     ],
     [],
   );

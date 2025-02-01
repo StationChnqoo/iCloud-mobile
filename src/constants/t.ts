@@ -1,4 +1,4 @@
-import { z } from "zod";
+import {z} from 'zod';
 
 export interface RealTimePrice {
   /** 股票价格 * 1000 */
@@ -104,31 +104,32 @@ export interface PaginationProps {
 }
 
 export const JiraSchema = z.object({
-  _id: z.string().default(""),
-  id: z.string().default(""),
-  title: z.string().default(""),
-  message: z.string().default(""),
+  _id: z.string().default(''),
+  id: z.string().default(''),
+  title: z.string().default(''),
+  message: z.string().default(''),
   people: z.array(z.string()).default([]),
-  version: z.string().default(""),
+  version: z.string().default(''),
   complexity: z.number().default(0),
   completeDate: z.number().default(0),
   updateTime: z.number().default(0),
   createTime: z.number().default(0),
-  userId: z.string().default(""),
+  userId: z.string().default(''),
 });
 
-// 生成默认的空对象
 export type Jira = z.infer<typeof JiraSchema>;
-export interface Password {
-  _id: string;            // 数据的唯一标识符
-  id: string;             // 项目的 ID
-  title: string;          // 标题
-  message: string;        // 消息（可以为空字符串）
-  name: string;           // 名称
-  password: string;       // 密码
-  platform: string;       // 平台类型（如 'web'）
-  updateTime: string;     // 更新时间（空字符串表示尚未设置）
-  createTime: number;     // 创建时间（时间戳，单位为毫秒）
-  link: string;           // 链接地址
-  userId: string;         // 用户 ID
-}
+
+export const PasswordSchema = z.object({
+  _id: z.string().default(''),
+  id: z.string().default(''),
+  title: z.string().default(''),
+  message: z.string().default(''),
+  name: z.string().default(''),
+  password: z.string().default(''),
+  platform: z.string().default(''),
+  updateTime: z.number().default(0),
+  createTime: z.number().default(0),
+  link: z.string().default(''),
+  userId: z.string().default(''),
+});
+export type Password = z.infer<typeof PasswordSchema>;

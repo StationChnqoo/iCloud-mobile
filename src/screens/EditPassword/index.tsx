@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
   Alert,
-  Image,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -10,18 +10,16 @@ import {
 } from 'react-native';
 
 import {RouteProp} from '@react-navigation/native';
-import {Button, Flex, MoreButton, Star} from '@src/components';
+import {Button, Flex, Radio} from '@src/components';
 import ToolBar from '@src/components/ToolBar';
 import {useCaches} from '@src/constants/store';
-import {Jira, JiraSchema} from '@src/constants/t';
+import {Jira, Password, PasswordSchema} from '@src/constants/t';
 import x from '@src/constants/x';
 import TrifleService from '@src/service/TrifleService';
 import {produce} from 'immer';
 import moment from 'moment';
-import {Divider, ScrollView, useToast} from 'native-base';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {Divider, useToast} from 'native-base';
 import {RootStacksParams, RootStacksProp} from '../Screens';
-import PeopleSelectorModal from './components/PeopleSelectorModal';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -31,31 +29,19 @@ interface MyProps {
 const EditJira: React.FC<MyProps> = props => {
   const {navigation, route} = props;
   const {theme, setUser} = useCaches();
-  const [form, setForm] = useState<Jira>(JiraSchema.parse({}));
-  const [open, setOpen] = useState(false);
-  const [timePicker, setTimePicker] = useState(false);
+  const [form, setForm] = useState<Password>(PasswordSchema.parse({}));
 
+  const Platforms = [
+    {label: '🌏 Web', value: 'web'},
+    {label: '📱 App', value: 'app'},
+  ];
   const toast = useToast();
 
-  const updateForm = <K extends keyof Jira>(key: K, value: Jira[K]) => {
+  const updateForm = <K extends keyof Password>(key: K, value: Password[K]) => {
     let _form = produce(form, draft => {
       draft[key] = value;
     });
     setForm(_form);
-  };
-
-  const onPeopleAppend = (t: string) => {
-    updateForm('people', [...form.people, t]);
-    setOpen(false);
-  };
-
-  const onPeopleDelete = (index: number) => {
-    updateForm(
-      'people',
-      produce(form.people, draft => {
-        draft.splice(index, 1);
-      }),
-    );
   };
 
   const onDelete = async () => {
@@ -64,8 +50,8 @@ const EditJira: React.FC<MyProps> = props => {
       {
         text: '确定',
         onPress: async () => {
-          const result = await new TrifleService().deleteJira(form.id);
-          toast.show({description: '删除成功 ...'});
+          const result = await new TrifleService().deletePassword(form.id);
+          toast.show({description: '删除成功'});
           navigation.goBack();
         },
       },
@@ -74,20 +60,20 @@ const EditJira: React.FC<MyProps> = props => {
 
   const onSave = async () => {
     if (route.params?.id) {
-      await new TrifleService().updateJira(form);
+      await new TrifleService().updatePassword(form);
     } else {
-      await new TrifleService().insertJira(form);
+      await new TrifleService().insertPassword(form);
     }
     toast.show({description: '操作成功 ...'});
     navigation.goBack();
   };
 
-  const loadLine = () => <View style={styles.line} />;
+  const loadLine = (n?: string) => <View style={{...styles.line}} />;
 
   const loadJira = async () => {
     let _form = JSON.parse(JSON.stringify(form)) as Jira;
     if (route.params?.id) {
-      let result = await new TrifleService().selectJira(route.params.id);
+      let result = await new TrifleService().selectPassword(route.params.id);
       _form = result.data;
     } else {
       _form.createTime = new Date().getTime();
@@ -106,7 +92,7 @@ const EditJira: React.FC<MyProps> = props => {
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <ToolBar
-        title={`${route.params?.id ? '编辑' : '新增'}Jira`}
+        title={`${route.params?.id ? '编辑' : '新增'}密码`}
         onBackPress={() => {
           navigation.goBack();
         }}
@@ -120,31 +106,9 @@ const EditJira: React.FC<MyProps> = props => {
           </Flex>
           {loadLine()}
           <Flex horizontal justify="space-between" align="flex-end">
-            <Text style={styles.label}>版本号</Text>
+            <Text style={styles.label}>标题</Text>
             <TextInput
-              placeholder="版本号"
-              style={styles.input}
-              textAlign={'right'}
-              multiline
-              value={form.version}
-              onChangeText={t => updateForm('version', t)}
-            />
-          </Flex>
-          {loadLine()}
-          <Flex horizontal justify="space-between" align="flex-end">
-            <Text style={styles.label}>复杂度</Text>
-            <Star
-              value={form?.complexity}
-              onPress={t => {
-                updateForm('complexity', t);
-              }}
-            />
-          </Flex>
-          {loadLine()}
-          <Flex horizontal justify="space-between" align="flex-end">
-            <Text style={styles.label}>Jira简介</Text>
-            <TextInput
-              placeholder="Jira简介"
+              placeholder="标题"
               style={{...styles.input, height: undefined}}
               textAlign={'right'}
               multiline
@@ -154,9 +118,33 @@ const EditJira: React.FC<MyProps> = props => {
           </Flex>
           {loadLine()}
           <Flex horizontal justify="space-between" align="flex-end">
-            <Text style={styles.label}>Jira备注</Text>
+            <Text style={styles.label}>账号</Text>
             <TextInput
-              placeholder="Jira备注"
+              placeholder="账号"
+              style={{...styles.input, height: undefined}}
+              textAlign={'right'}
+              multiline
+              value={form.name}
+              onChangeText={t => updateForm('name', t)}
+            />
+          </Flex>
+          {loadLine()}
+          <Flex horizontal justify="space-between" align="flex-end">
+            <Text style={styles.label}>密码</Text>
+            <TextInput
+              placeholder="密码"
+              style={{...styles.input, height: undefined}}
+              textAlign={'right'}
+              multiline
+              value={form.password}
+              onChangeText={t => updateForm('password', t)}
+            />
+          </Flex>
+          {loadLine()}
+          <Flex horizontal justify="space-between" align="flex-end">
+            <Text style={styles.label}>描述</Text>
+            <TextInput
+              placeholder="描述"
               style={{...styles.input, height: undefined}}
               textAlign={'right'}
               multiline
@@ -166,17 +154,43 @@ const EditJira: React.FC<MyProps> = props => {
           </Flex>
           {loadLine()}
           <Flex horizontal justify="space-between" align="flex-end">
-            <Text style={styles.label}>完成日期</Text>
-            <MoreButton
-              onPress={() => {
-                setTimePicker(true);
-              }}
-              label={
-                form.completeDate
-                  ? moment(form.completeDate).format('YYYY/MM/DD')
-                  : '请选择'
-              }
+            <Text style={styles.label}>链接</Text>
+            <TextInput
+              placeholder="链接"
+              style={{...styles.input, height: undefined}}
+              textAlign={'right'}
+              multiline
+              value={form.link}
+              onChangeText={t => updateForm('link', t)}
             />
+          </Flex>
+          {loadLine()}
+          <Flex horizontal justify="space-between" align="flex-end">
+            <Text style={styles.label}>平台</Text>
+            <Flex style={{gap: 10}} horizontal>
+              {Platforms.map((it, i) => (
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() => {
+                    updateForm('platform', it.value);
+                  }}>
+                  <Flex
+                    horizontal
+                    style={{
+                      ...styles.tag,
+                      borderColor: it.value == form.platform ? theme : '#fff',
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        color: it.value == form.platform ? theme : '#666',
+                      }}>
+                      {it.label}
+                    </Text>
+                  </Flex>
+                </TouchableOpacity>
+              ))}
+            </Flex>
           </Flex>
           {loadLine()}
           <Flex horizontal justify="space-between" align="flex-end">
@@ -193,43 +207,9 @@ const EditJira: React.FC<MyProps> = props => {
             </Text>
           </Flex>
           {loadLine()}
-          <Flex horizontal justify="space-between" align="flex-end">
-            <Text style={styles.label}>参与人员</Text>
-            <MoreButton
-              onPress={() => {
-                setOpen(true);
-              }}
-              label={
-                form.people.length > 0
-                  ? `已选${form.people.length}人`
-                  : '请选择'
-              }
-            />
-          </Flex>
-          <View style={{height: 5}} />
-          <View style={styles.tags}>
-            {form.people.map((it, i) => (
-              <Flex horizontal key={i} style={styles.tag}>
-                <Text
-                  style={{color: '#333', fontSize: 16, paddingHorizontal: 5}}>
-                  {it}
-                </Text>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  hitSlop={{top: 5, bottom: 5, left: 5, right: 5}}
-                  onPress={() => {
-                    onPeopleDelete(i);
-                  }}>
-                  <Image
-                    source={require('./assets/delete.png')}
-                    style={{height: 24, width: 24, tintColor: '#ccc'}}
-                  />
-                </TouchableOpacity>
-              </Flex>
-            ))}
-          </View>
         </View>
       </ScrollView>
+
       <Divider />
       <Flex
         horizontal
@@ -255,29 +235,6 @@ const EditJira: React.FC<MyProps> = props => {
           onPress={onSave}
         />
       </Flex>
-      <PeopleSelectorModal
-        show={open}
-        onClose={() => {
-          setOpen(false);
-        }}
-        onHide={() => {}}
-        onConfirm={onPeopleAppend}
-      />
-      <DateTimePickerModal
-        date={new Date(form.completeDate)}
-        isVisible={timePicker}
-        locale={'zh-CN'}
-        mode="date"
-        onConfirm={ms => {
-          setTimePicker(false);
-          updateForm('completeDate', new Date(ms).getTime());
-        }}
-        onCancel={() => {
-          setTimePicker(false);
-        }}
-        confirmTextIOS={'确认'}
-        cancelTextIOS={'取消'}
-      />
     </View>
   );
 };

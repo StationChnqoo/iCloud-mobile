@@ -3,6 +3,7 @@ import Button from './Button';
 import DatePicker from './DatePicker';
 import Flex from './Flex';
 import MoreButton from './MoreButton';
+import Radio from './Radio';
 import Star from './Star';
 import ToastProvider from './ToastProvider';
 import ToolBar from './ToolBar';
@@ -17,5 +18,6 @@ export {
   BottomSheet,
   MoreButton,
   Star,
-  DatePicker
+  DatePicker,
+  Radio
 };

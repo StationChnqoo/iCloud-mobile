@@ -62,7 +62,7 @@ const Care: React.FC<MyProps> = memo(props => {
                     <Text
                       style={{
                         fontFamily: Fonts.digital,
-                        fontSize: x.scale(32),
+                        fontSize: 30,
                         color: x.Colors.STOCK(it.f170),
                       }}>
                       {(it.f43 / Math.pow(10, it.f59)).toFixed(2)}
@@ -80,7 +80,7 @@ const Care: React.FC<MyProps> = memo(props => {
                 <View style={{width: 12}} />
                 <Image
                   key={`${i}:${Math.ceil(new Date().getTime() / 10000)}`}
-                  style={{height: 68, width: 122}}
+                  style={{height:x.scale(68), width: x.scale(122)}}
                   source={{
                     uri: `https://webquotepic.eastmoney.com/GetPic.aspx?nid=${
                       it.f107

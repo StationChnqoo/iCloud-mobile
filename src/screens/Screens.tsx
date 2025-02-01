@@ -18,6 +18,7 @@ import Webviewer from './Webviewer';
 import Login from './Login';
 import ChooseGlobal from './ChooseGlobal';
 import EditJira from './EditJira';
+import EditPassword from './EditPassword';
 
 export type RootStacksParams = {
   App: undefined;
@@ -29,6 +30,7 @@ export type RootStacksParams = {
   Login: undefined;
   ChooseGlobal: undefined;
   EditJira: {id?: string};
+  EditPassword: {id?: string};
 };
 
 const RootStack = createNativeStackNavigator<RootStacksParams>();
@@ -55,6 +57,7 @@ export default function Stacks() {
         <RootStack.Screen name="Login" component={Login} />
         <RootStack.Screen name="ChooseGlobal" component={ChooseGlobal} />
         <RootStack.Screen name="EditJira" component={EditJira} />
+        <RootStack.Screen name="EditPassword" component={EditPassword} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

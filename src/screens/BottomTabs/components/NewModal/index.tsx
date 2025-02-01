@@ -25,7 +25,7 @@ const NewModal = (props: MyProps) => {
 
   const menus = [
     {icon: require('./assets/jira.png'), label: 'Jira'},
-    // {icon: require('./assets/friends.png'), label: '发帖'},
+    {icon: require('./assets/lock.png'), label: '密码'},
     // {icon: require('./assets/pencil.png'), label: '反馈'},
     // {icon: require('./assets/pig.png'), label: '捐赠'},
   ];
@@ -61,7 +61,7 @@ const NewModal = (props: MyProps) => {
                 style={{
                   height: x.scale(18),
                   width: x.scale(18),
-                  tintColor: index == i ? theme : '#333',
+                  tintColor: index == i ? theme : '#666',
                 }}
                 source={it.icon}
               />

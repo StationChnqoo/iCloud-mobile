@@ -15,7 +15,7 @@ const MoreButton: React.FC<MyProps> = props => {
   return (
     <TouchableOpacity activeOpacity={x.Touchable.OPACITY} onPress={onPress}>
       <Flex horizontal>
-        <Text style={{color: theme, fontSize: 14}}>{label}</Text>
+        <Text style={{color: theme, fontSize: 16}}>{label}</Text>
         <View style={{width: 4}} />
         <Image
           source={require('@src/assets/images/common/arrow_right.png')}

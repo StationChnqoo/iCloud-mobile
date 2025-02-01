@@ -1,23 +1,29 @@
+import {useFocusEffect} from '@react-navigation/native';
 import {Flex} from '@src/components';
 import {useCaches} from '@src/constants/store';
 import {Password} from '@src/constants/t';
 import TrifleService from '@src/service/TrifleService';
-import {useInfiniteQuery} from '@tanstack/react-query';
+import {useInfiniteQuery, useQueryClient} from '@tanstack/react-query';
 import moment from 'moment';
-import React, {memo} from 'react';
+import React, {memo, useCallback} from 'react';
 import {
   FlatList,
   ListRenderItemInfo,
+  RefreshControl,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
-interface MyProps {}
+interface MyProps {
+  onItemPress: (id: string) => void;
+}
 
 const Passwords: React.FC<MyProps> = memo(props => {
-  const {} = props;
+  const {onItemPress} = props;
   const {theme, user} = useCaches();
+  const queryClient = useQueryClient();
 
   const loadDatas = async (page: number) => {
     let result = await new TrifleService().selectPasswords({
@@ -39,12 +45,22 @@ const Passwords: React.FC<MyProps> = memo(props => {
     },
   });
 
-  // console.log('worksQuery: ', worksQuery.data.pages.map(it => it.datas).flat() || [])
+  useFocusEffect(
+    useCallback(() => {
+      passwordsQuery.refetch();
+      return function () {};
+    }, []),
+  );
 
   const loadItem = (info: ListRenderItemInfo<Password>) => {
     const {item} = info;
     return (
-      <View style={styles.item}>
+      <TouchableOpacity
+        style={styles.item}
+        activeOpacity={0.8}
+        onPress={() => {
+          onItemPress(item.id);
+        }}>
         <Flex horizontal justify={'space-between'}>
           <Flex horizontal>
             <Text>{{app: '📱', web: '🌏'}[item.platform]}</Text>
@@ -80,13 +96,22 @@ const Passwords: React.FC<MyProps> = memo(props => {
           备注:{' '}
           <Text style={{color: '#333'}}>{item.message || '啥也没有 ~'}</Text>
         </Text>
-      </View>
+      </TouchableOpacity>
     );
   };
 
   return (
     <View style={{flex: 1}}>
       <FlatList
+        refreshControl={
+          <RefreshControl
+            refreshing={passwordsQuery.isFetching}
+            onRefresh={() => {
+              queryClient.resetQueries({queryKey: ['passwordsQuery']});
+              passwordsQuery.refetch();
+            }}
+          />
+        }
         ListHeaderComponent={<View style={{height: 10}} />}
         data={passwordsQuery.data?.pages.map(it => it.datas).flat() || []}
         onEndReached={() => {
