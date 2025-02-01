@@ -100,9 +100,9 @@ const NewModal = (props: MyProps) => {
 const styles = StyleSheet.create({
   view: {
     backgroundColor: 'white',
-    padding: 16,
-    borderRadius: x.scale(16),
-    margin: 16,
+    padding: 24,
+    borderRadius: 15,
+    margin: 24,
   },
   botton: {
     borderWidth: 1,

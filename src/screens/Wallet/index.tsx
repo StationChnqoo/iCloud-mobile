@@ -106,7 +106,7 @@ const Wallet: React.FC<MyProps> = props => {
 
 const styles = StyleSheet.create({
   item: {
-    borderRadius: 10,
+    borderRadius: 15,
     borderWidth: 1,
     position: 'relative',
     // height: x.scale(64),

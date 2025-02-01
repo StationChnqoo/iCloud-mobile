@@ -72,28 +72,33 @@ const Passwords: React.FC<MyProps> = memo(props => {
             {moment(item.createTime).format('YYYY/MM/DD')}
           </Text>
         </Flex>
-        <View style={{height: 1, marginVertical: 6, backgroundColor: '#eee'}} />
+        <View
+          style={{height: 1, marginVertical: 12, backgroundColor: '#eee'}}
+        />
         <Text style={{fontSize: 16, color: '#333'}}>{item.title}</Text>
         <View style={{height: 5}} />
         <Text
           style={{
             fontSize: 14,
             color: '#666',
-            textDecorationLine: item?.link ? 'underline' : 'none',
           }}>
-          {item.link || '--'}
+          {`链接: `}
+          <Text style={{textDecorationLine: item?.link ? 'underline' : 'none'}}>
+            {item.link || '--'}
+          </Text>
         </Text>
         <View style={{height: 10}} />
-        <Text style={{fontSize: 14, color: '#666'}}>
-          账号: <Text style={{color: '#333'}}>{item.name}</Text>
-        </Text>
+        <Flex justify="space-between" horizontal>
+          <Text style={{fontSize: 14, color: '#666'}}>
+            {`密码: `}
+            <Text style={{color: '#333'}}>
+              {item.name} → {item.password}
+            </Text>
+          </Text>
+        </Flex>
         <View style={{height: 5}} />
         <Text style={{fontSize: 14, color: '#666'}}>
-          密码: <Text style={{color: '#333'}}>{item.password}</Text>
-        </Text>
-        <View style={{height: 5}} />
-        <Text style={{fontSize: 14, color: '#666'}}>
-          备注:{' '}
+          {`备注: `}
           <Text style={{color: '#333'}}>{item.message || '啥也没有 ~'}</Text>
         </Text>
       </TouchableOpacity>
@@ -135,14 +140,13 @@ const Passwords: React.FC<MyProps> = memo(props => {
 const styles = StyleSheet.create({
   view: {
     // backgroundColor: 'white',
-    borderRadius: 8,
   },
   item: {
-    borderRadius: 8,
+    borderRadius: 15,
     backgroundColor: 'white',
-    marginHorizontal: 12,
+    marginHorizontal: 15,
     // marginVertical: 5,
-    padding: 8,
+    padding: 15,
   },
 });
 

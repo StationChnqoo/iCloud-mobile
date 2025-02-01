@@ -154,14 +154,13 @@ const Works: React.FC<MyProps> = memo(props => {
 const styles = StyleSheet.create({
   view: {
     // backgroundColor: 'white',
-    borderRadius: 8,
   },
   item: {
-    borderRadius: 8,
+    borderRadius: 15,
     backgroundColor: 'white',
-    marginHorizontal: 12,
+    marginHorizontal: 15,
     // marginVertical: 5,
-    padding: 8,
+    padding: 15,
   },
   note: {
     color: '#333',

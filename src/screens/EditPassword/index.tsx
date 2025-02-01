@@ -20,6 +20,7 @@ import {produce} from 'immer';
 import moment from 'moment';
 import {Divider, useToast} from 'native-base';
 import {RootStacksParams, RootStacksProp} from '../Screens';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -209,7 +210,6 @@ const EditJira: React.FC<MyProps> = props => {
           {loadLine()}
         </View>
       </ScrollView>
-
       <Divider />
       <Flex
         horizontal
@@ -235,6 +235,9 @@ const EditJira: React.FC<MyProps> = props => {
           onPress={onSave}
         />
       </Flex>
+      <View
+        style={{height: useSafeAreaInsets().bottom, backgroundColor: 'white'}}
+      />
     </View>
   );
 };

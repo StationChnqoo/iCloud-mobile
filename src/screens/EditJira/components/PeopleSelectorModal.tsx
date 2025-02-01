@@ -93,9 +93,9 @@ const styles = StyleSheet.create({
   views: {
     height: x.WIDTH * 0.618,
     backgroundColor: 'white',
-    borderRadius: 16,
-    padding: 15,
-    margin: 16,
+    borderRadius: 15,
+    padding: 24,
+    margin: 24,
   },
   saveButton: {
     height: 36,

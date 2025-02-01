@@ -57,7 +57,7 @@ const InputDialog: React.FC<MyProps> = props => {
           placeholder={''}
           value={text}
           onChangeText={setText}
-          underlineColorAndroid={'transport'}
+          underlineColorAndroid={'transparent'}
         />
         <View style={{height: 24}} />
         <Flex horizontal justify={'flex-end'}>
@@ -84,10 +84,10 @@ const InputDialog: React.FC<MyProps> = props => {
 
 const styles = StyleSheet.create({
   view: {
-    borderRadius: 12,
+    borderRadius: 15,
     backgroundColor: 'white',
-    margin: 16,
-    padding: 16,
+    margin: 24,
+    padding: 24,
   },
   input: {
     borderWidth: 1,

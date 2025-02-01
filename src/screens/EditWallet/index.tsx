@@ -21,6 +21,7 @@ import {Divider, useToast} from 'native-base';
 import {RootStacksParams, RootStacksProp} from '../Screens';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import InputDialog from '@src/components/InputDialog';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -270,6 +271,9 @@ const EditWallet: React.FC<MyProps> = props => {
           />
         </Flex>
       </Flex>
+      <View
+        style={{height: useSafeAreaInsets().bottom, backgroundColor: 'white'}}
+      />
       <DateTimePickerModal
         date={new Date(form.settleDate)}
         isVisible={timePicker}

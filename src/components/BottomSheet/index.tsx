@@ -1,6 +1,7 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import Modal from 'react-native-modal';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface MyProps {
   children: React.ReactNode;
@@ -29,6 +30,7 @@ const BottomSheet: React.FC<MyProps> = props => {
       backdropOpacity={0.58}
       style={{margin: 0, padding: 0, justifyContent: 'flex-end'}}>
       {children}
+      <View style={{height: useSafeAreaInsets().bottom}} />
     </Modal>
   );
 };

@@ -14,6 +14,7 @@ import {Divider, ScrollView, useToast} from 'native-base';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {RootStacksParams, RootStacksProp} from '../Screens';
 import PeopleSelectorModal from './components/PeopleSelectorModal';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -232,6 +233,9 @@ const EditJira: React.FC<MyProps> = props => {
           onPress={onSave}
         />
       </Flex>
+      <View
+        style={{height: useSafeAreaInsets().bottom, backgroundColor: 'white'}}
+      />
       <PeopleSelectorModal
         show={open}
         onClose={() => {

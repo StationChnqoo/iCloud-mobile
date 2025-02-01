@@ -76,7 +76,7 @@ const Wallets: React.FC<MyProps> = memo(props => {
             {moment(item.settleDate).format('YYYY年ww周').replace(' ', '')}
           </Text>
         </Flex>
-        <View style={{height: 1, marginVertical: 6, backgroundColor: '#eee'}} />
+        <View style={{height: 1, marginVertical: 10, backgroundColor: '#eee'}} />
         <Flex
           horizontal
           style={{flexWrap: 'wrap', gap: 10}}
@@ -138,14 +138,13 @@ const Wallets: React.FC<MyProps> = memo(props => {
 const styles = StyleSheet.create({
   view: {
     // backgroundColor: 'white',
-    borderRadius: 8,
   },
   item: {
-    borderRadius: 8,
+    borderRadius: 15,
     backgroundColor: 'white',
-    marginHorizontal: 12,
+    marginHorizontal: 15,
     // marginVertical: 5,
-    padding: 8,
+    padding: 15,
   },
 });
 

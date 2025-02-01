@@ -30,7 +30,7 @@ const Tabs: React.FC<MyProps> = props => {
     <View style={{backgroundColor: '#fff', ...x.Styles.CARD}}>
       <View style={{height: useSafeAreaInsets().top}} />
       <ScrollView horizontal bounces={false}>
-        <Flex style={{gap: 15, paddingHorizontal: 15, height: 44}} horizontal>
+        <Flex style={{gap: 15, paddingHorizontal: 15, height: 52}} horizontal>
           {tabs.map((it, i) => (
             <TouchableOpacity
               key={i}
