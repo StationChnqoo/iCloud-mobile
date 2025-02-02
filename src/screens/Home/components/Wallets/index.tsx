@@ -3,7 +3,11 @@ import {Flex} from '@src/components';
 import {useCaches} from '@src/constants/store';
 import {Property} from '@src/constants/t';
 import WalletService from '@src/service/WalletService';
-import {useInfiniteQuery, useQueryClient} from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import {produce} from 'immer';
 import moment from 'moment';
 import React, {memo, useCallback} from 'react';
@@ -16,6 +20,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import PropertyChart from './components/PropertyChart';
+import {NextService} from '@src/service';
 
 interface MyProps {
   onItemPress: (id: string) => void;
@@ -45,6 +51,11 @@ const Wallets: React.FC<MyProps> = memo(props => {
     },
   });
 
+  const propertyQuery = useQuery({
+    queryKey: ['propertyQuery'],
+    queryFn: () => new NextService().selectProperties(),
+  });
+
   useFocusEffect(
     useCallback(() => {
       propertiesQuery.refetch();
@@ -71,9 +82,14 @@ const Wallets: React.FC<MyProps> = memo(props => {
           onItemPress(item.id);
         }}>
         <Flex horizontal justify={'space-between'}>
-          <Text style={{fontSize: 14, color: '#999'}}>{item.id}</Text>
-          <Text style={{fontSize: 14, color: '#333'}}>
-            {moment(item.settleDate).format('YYYY年ww周').replace(' ', '')}
+          <Flex horizontal>
+            <Text style={{fontSize: 16, color: '#333'}}>
+              {moment(item.settleDate).format('YYYY年ww周').replace(' ', '')}
+            </Text>
+            {/* <Text style={{fontSize: 14, color: '#999'}}>{item.id}</Text> */}
+          </Flex>
+          <Text style={{color: theme, fontSize: 16}}>
+            {parseFloat(item.sum).toFixed(2)}K
           </Text>
         </Flex>
         <View
@@ -95,12 +111,6 @@ const Wallets: React.FC<MyProps> = memo(props => {
             </Flex>
           ))}
         </Flex>
-        <View style={{height: 10}} />
-        <Flex justify="flex-end" horizontal>
-          <Text style={{color: theme, fontSize: 16}}>
-            {parseFloat(item.sum).toFixed(2)}K
-          </Text>
-        </Flex>
       </TouchableOpacity>
     );
   };
@@ -120,7 +130,9 @@ const Wallets: React.FC<MyProps> = memo(props => {
             }}
           />
         }
-        ListHeaderComponent={<View style={{height: 10}} />}
+        ListHeaderComponent={
+          <PropertyChart datas={propertyQuery.data?.data?.datas || []} />
+        }
         data={propertiesQuery.data?.pages.map(it => it.datas).flat() || []}
         onEndReached={() => {
           propertiesQuery.fetchNextPage();
@@ -129,7 +141,7 @@ const Wallets: React.FC<MyProps> = memo(props => {
         keyExtractor={(it, i) => `${it.id}:${i}`}
         onEndReachedThreshold={0.1}
         removeClippedSubviews={true}
-        ItemSeparatorComponent={() => <View style={{height: 10}} />}
+        ItemSeparatorComponent={() => <View style={{height: 4}} />}
         ListFooterComponent={
           <Flex style={{marginVertical: 12}}>
             <Text style={{fontSize: 12, color: '#999'}}>滑动到底了 ...</Text>
@@ -145,11 +157,9 @@ const styles = StyleSheet.create({
     // backgroundColor: 'white',
   },
   item: {
-    borderRadius: 15,
     backgroundColor: 'white',
-    marginHorizontal: 15,
     // marginVertical: 5,
-    padding: 15,
+    padding: 12,
   },
 });
 

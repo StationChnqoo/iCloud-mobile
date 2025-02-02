@@ -62,7 +62,7 @@ const Care: React.FC<MyProps> = memo(props => {
                     <Text
                       style={{
                         fontFamily: Fonts.digital,
-                        fontSize: 30,
+                        fontSize: 36,
                         color: x.Colors.STOCK(it.f170),
                       }}>
                       {(it.f43 / Math.pow(10, it.f59)).toFixed(2)}

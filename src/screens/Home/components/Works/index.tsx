@@ -1,8 +1,7 @@
-import {RouteProp, useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import {Flex} from '@src/components';
 import {useCaches} from '@src/constants/store';
 import {Jira} from '@src/constants/t';
-import {RootStacksParams, RootStacksProp} from '@src/screens/Screens';
 import TrifleService from '@src/service/TrifleService';
 import {useInfiniteQuery, useQueryClient} from '@tanstack/react-query';
 import moment from 'moment';
@@ -133,7 +132,7 @@ const Works: React.FC<MyProps> = memo(props => {
             }}
           />
         }
-        ListHeaderComponent={<View style={{height: 10}} />}
+        ListHeaderComponent={<View style={{height: 1}} />}
         data={jiraQuery.data?.pages.map(it => it.datas).flat() || []}
         onEndReached={() => {
           jiraQuery.fetchNextPage();
@@ -142,7 +141,7 @@ const Works: React.FC<MyProps> = memo(props => {
         removeClippedSubviews={true}
         keyExtractor={(it, i) => `${it.id}:${i}`}
         onEndReachedThreshold={0.1}
-        ItemSeparatorComponent={() => <View style={{height: 10}} />}
+        ItemSeparatorComponent={() => <View style={{height: 4}} />}
         ListFooterComponent={
           <Flex style={{marginVertical: 12}}>
             <Text style={{fontSize: 12, color: '#999'}}>
@@ -160,11 +159,9 @@ const styles = StyleSheet.create({
     // backgroundColor: 'white',
   },
   item: {
-    borderRadius: 15,
     backgroundColor: 'white',
-    marginHorizontal: 15,
     // marginVertical: 5,
-    padding: 15,
+    padding: 12,
   },
   note: {
     color: '#333',

@@ -17,7 +17,6 @@ import {useQuery} from '@tanstack/react-query';
 import moment from 'moment';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {RootStacksProp} from '../Screens';
-import PropertyChart from './components/PropertyChart';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -56,8 +55,6 @@ const Wallet: React.FC<MyProps> = props => {
         contentInsetAdjustmentBehavior="automatic"
         bounces={false}>
         <View style={{height: 12}} />
-        <PropertyChart datas={propertyQuery.data?.data?.datas || []} />
-
         <View style={{borderRadius: 12, marginVertical: 6}}>
           {BooksTemplates.map((it, i) => (
             <TouchableOpacity

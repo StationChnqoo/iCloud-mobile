@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo, useMemo} from 'react';
 import {
   ActivityIndicator,
   processColor,
@@ -20,7 +20,7 @@ interface MyProps {
   datas: Property[];
 }
 
-const PropertyChart: React.FC<MyProps> = props => {
+const PropertyChart: React.FC<MyProps> = memo(props => {
   const {navigation, datas} = props;
   const {theme, setUser} = useCaches();
 
@@ -38,7 +38,15 @@ const PropertyChart: React.FC<MyProps> = props => {
       label,
       values: datas
         .sort((a, b) => a.settleDate - b.settleDate)
-        .map(it => ({y: parseFloat(`${it[key]}`)})),
+        .map(it => ({
+          y: Array.isArray(it[key])
+            ? it[key]
+                .map(t => parseFloat(t))
+                .reduce((s, t) => {
+                  return s + t;
+                }, 0)
+            : parseFloat(`${it[key]}`),
+        })),
       config: {
         color: processColor(colors[r].value),
         circleColor: processColor(colors[r].value),
@@ -69,18 +77,17 @@ const PropertyChart: React.FC<MyProps> = props => {
       <View style={{height: 10}} />
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   view: {
-    borderRadius: 12,
+    paddingHorizontal: 12,
     backgroundColor: '#fff',
   },
   title: {
-    fontSize: x.scale(16),
+    fontSize: 16,
     color: '#333',
     fontWeight: '500',
-    paddingHorizontal: 12,
   },
 });
 
