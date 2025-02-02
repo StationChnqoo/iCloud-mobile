@@ -86,7 +86,10 @@ class WalletService extends BaseService {
     const result = await this.instance.get(
       `${Paths.walletProperty}/selectProperties`,
       {
-        params: page,
+        params: {
+          ...page,
+          sort: JSON.stringify({settleDate: -1}),
+        },
       },
     );
     return result.data;

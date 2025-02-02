@@ -4,12 +4,12 @@ import {StyleSheet, View} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import {useCaches} from '@src/constants/store';
 import {RootStacksProp} from '../Screens';
+import BaijiaJiangtan from './components/BaijiaJiangtan';
+import Demo from './components/Demo';
 import Passwords from './components/Passwords';
 import Tabs from './components/Tabs';
-import Works from './components/Works';
-import Magics from './components/Magics';
 import Wallets from './components/Wallets';
-import Demo from './components/Demo';
+import Works from './components/Works';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -32,38 +32,57 @@ const Home: React.FC<MyProps> = props => {
     }, []),
   );
 
-  const tabComponents = useMemo(
+  const tabs = useMemo(
     () => [
-      <Works
-        key="works"
-        onJiraPress={id => {
-          navigation.navigate('EditJira', {id});
-        }}
-      />,
-      <Passwords
-        key="passwords"
-        onItemPress={id => {
-          navigation.navigate('EditPassword', {id});
-        }}
-      />,
-      <Wallets
-        key="wallets"
-        onItemPress={id => {
-          navigation.navigate('EditWallet', {id});
-        }}
-      />,
-      <Demo />
+      {
+        label: '工作',
+        value: 'jira',
+        component: (
+          <Works
+            key="works"
+            onJiraPress={id => {
+              navigation.navigate('EditJira', {id});
+            }}
+          />
+        ),
+      },
+      {
+        label: '密码',
+        value: 'password',
+        component: (
+          <Passwords
+            key="passwords"
+            onItemPress={id => {
+              navigation.navigate('EditPassword', {id});
+            }}
+          />
+        ),
+      },
+      {
+        label: '钱包',
+        value: 'wallet',
+        component: (
+          <Wallets
+            key="wallets"
+            onItemPress={id => {
+              navigation.navigate('EditWallet', {id});
+            }}
+          />
+        ),
+      },
+      {label: '百家讲坛', value: 'bjjt', component: <BaijiaJiangtan />},
+      {label: '测试', value: 'demo', component: <Demo />},
     ],
     [],
   );
 
   return (
     <View style={{flex: 1, backgroundColor: '#f0f0f0', position: 'relative'}}>
-      <Tabs onTabPress={setTab} tabIndex={tab} />
+      <Tabs onTabPress={setTab} tabIndex={tab} tabs={tabs} />
       <View style={{flex: 1}}>
-        {tabComponents.map((it, i) => (
+        {tabs.map((it, i) => (
           <View key={i} style={{display: i == tab ? 'flex' : 'none', flex: 1}}>
-            {tabComponents[i]}
+            {tabs[i].component}
           </View>
         ))}
       </View>

@@ -12,20 +12,15 @@ import {
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface MyProps {
+  tabs: {label: string, value: string}[]
   tabIndex: number;
   onTabPress: (t: number) => void;
 }
 
 const Tabs: React.FC<MyProps> = props => {
-  const {tabIndex, onTabPress} = props;
+  const {tabIndex, onTabPress, tabs} = props;
   const {theme, user} = useCaches();
-
-  const tabs = [
-    {label: '工作', value: 'jira'},
-    {label: '密码', value: 'password'},
-    {label: '钱包', value: 'wallet'},
-    {label: '测试', value: 'demo'},
-  ];
+  
   const sideSize = {height: x.scale(48), width: x.scale(48)};
   return (
     <View style={{backgroundColor: '#fff', ...x.Styles.CARD}}>

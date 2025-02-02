@@ -8,7 +8,10 @@ class TrifleService extends BaseService {
   }
   async selectJiras(page: PaginationProps) {
     const result = await this.instance.get(`${Paths.trifleJira}/selectJiras`, {
-      params: page,
+      params: {
+        ...page,
+        sort: JSON.stringify({createTime: -1}),
+      },
     });
     return result.data;
   }
