@@ -128,6 +128,7 @@ const Wallets: React.FC<MyProps> = memo(props => {
             }
             onRefresh={() => {
               queryClient.resetQueries({queryKey: ['propertiesQuery']});
+              propertyQuery.refetch();
               propertiesQuery.refetch();
             }}
           />

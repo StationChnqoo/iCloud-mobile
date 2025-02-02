@@ -14,6 +14,7 @@ import {RootStacksProp} from '@src/screens/Screens';
 import {LineChart} from 'react-native-charts-wrapper';
 import {produce} from 'immer';
 import {BooksTemplates} from '@src/constants/config';
+import _ from 'lodash';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -25,14 +26,7 @@ const PropertyChart: React.FC<MyProps> = memo(props => {
   const {theme, setUser} = useCaches();
 
   const buildGroupDatas = (label: string, key: keyof Property) => {
-    const colors = produce(BooksTemplates, draft => {
-      for (let i = 0; i < draft.length; i++) {
-        let j = Math.floor(draft.length * Math.random());
-        let t = draft[i];
-        draft[i] = draft[j];
-        draft[j] = t;
-      }
-    });
+    const colors = _.shuffle(BooksTemplates);
     let r = Math.floor(colors.length * Math.random());
     return {
       label,
@@ -63,6 +57,9 @@ const PropertyChart: React.FC<MyProps> = memo(props => {
         <ActivityIndicator color={theme} />
       ) : (
         <LineChart
+          dragEnabled={false}
+          scaleEnabled={false}
+          touchEnabled={false}
           style={{width: '100%', height: x.WIDTH * 0.618}}
           data={{
             dataSets: [

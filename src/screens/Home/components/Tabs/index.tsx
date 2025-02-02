@@ -24,6 +24,7 @@ const Tabs: React.FC<MyProps> = props => {
     {label: '工作', value: 'jira'},
     {label: '密码', value: 'password'},
     {label: '钱包', value: 'wallet'},
+    {label: '测试', value: 'demo'},
   ];
   const sideSize = {height: x.scale(48), width: x.scale(48)};
   return (

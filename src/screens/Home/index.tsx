@@ -9,6 +9,7 @@ import Tabs from './components/Tabs';
 import Works from './components/Works';
 import Magics from './components/Magics';
 import Wallets from './components/Wallets';
+import Demo from './components/Demo';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -51,6 +52,7 @@ const Home: React.FC<MyProps> = props => {
           navigation.navigate('EditWallet', {id});
         }}
       />,
+      <Demo />
     ],
     [],
   );
