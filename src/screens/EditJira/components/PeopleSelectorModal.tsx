@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     height: x.WIDTH * 0.618,
     backgroundColor: 'white',
     borderRadius: 15,
-    padding: 24,
+    padding: 16,
     margin: 24,
   },
   saveButton: {
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     borderColor: '#ccc',
-    height: 32,
+    height: 36,
     paddingVertical: 0,
     paddingHorizontal: 5,
     fontSize: 16,

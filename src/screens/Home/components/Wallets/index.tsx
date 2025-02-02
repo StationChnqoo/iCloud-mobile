@@ -53,12 +53,14 @@ const Wallets: React.FC<MyProps> = memo(props => {
 
   const propertyQuery = useQuery({
     queryKey: ['propertyQuery'],
+    enabled: user?.token ? true : false,
     queryFn: () => new NextService().selectProperties(),
   });
 
   useFocusEffect(
     useCallback(() => {
       propertiesQuery.refetch();
+      propertyQuery.refetch();
       return function () {};
     }, []),
   );

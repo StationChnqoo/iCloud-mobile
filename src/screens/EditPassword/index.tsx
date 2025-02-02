@@ -71,7 +71,7 @@ const EditJira: React.FC<MyProps> = props => {
 
   const loadLine = (n?: string) => <View style={{...styles.line}} />;
 
-  const loadJira = async () => {
+  const loadPassword = async () => {
     let _form = JSON.parse(JSON.stringify(form)) as Jira;
     if (route.params?.id) {
       let result = await new TrifleService().selectPassword(route.params.id);
@@ -86,7 +86,7 @@ const EditJira: React.FC<MyProps> = props => {
   };
 
   useEffect(() => {
-    loadJira();
+    loadPassword();
     return function () {};
   }, []);
 
@@ -171,6 +171,7 @@ const EditJira: React.FC<MyProps> = props => {
             <Flex style={{gap: 10}} horizontal>
               {Platforms.map((it, i) => (
                 <TouchableOpacity
+                  key={i}
                   activeOpacity={0.8}
                   onPress={() => {
                     updateForm('platform', it.value);

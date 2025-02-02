@@ -118,7 +118,7 @@ const EditWallet: React.FC<MyProps> = props => {
 
   const loadLine = (n?: string) => <View style={{...styles.line}} />;
 
-  const loadJira = async () => {
+  const loadWallet = async () => {
     let _form = JSON.parse(JSON.stringify(form)) as Jira;
     if (route.params?.id) {
       let result = await new WalletService().selectProperty(route.params.id);
@@ -149,7 +149,7 @@ const EditWallet: React.FC<MyProps> = props => {
   };
 
   useEffect(() => {
-    loadJira();
+    loadWallet();
     return function () {};
   }, []);
 

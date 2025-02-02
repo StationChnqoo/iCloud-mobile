@@ -37,12 +37,6 @@ const Wallet: React.FC<MyProps> = props => {
     }, []),
   );
 
-  const propertyQuery = useQuery({
-    queryKey: ['propertyQuery'],
-    enabled: focused && (user?.token ? true : false),
-    queryFn: () => new NextService().selectProperties(),
-  });
-
   // console.log(propertyQuery.data?.data?.datas);
   // let datas = propertyQuery.data?.data?.datas || [];
   return (

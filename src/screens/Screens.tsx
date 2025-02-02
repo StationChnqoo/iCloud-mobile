@@ -8,10 +8,8 @@ import {
 } from '@react-navigation/native-stack';
 
 import * as React from 'react';
-import HelloWorld from './HelloWorld';
 // 这个地方用Path alias，@/App会报错
 import App from '../../App';
-import Welcome from './Welcome';
 import BottomTabs from './BottomTabs';
 import ChooseStock from './ChooseStock';
 import Webviewer from './Webviewer';
@@ -50,10 +48,8 @@ export default function Stacks() {
           headerShown: false,
           animationDuration: 618,
         }}>
-        <RootStack.Screen name="Welcome" component={Welcome} />
         <RootStack.Screen name="BottomTabs" component={BottomTabs} />
         <RootStack.Screen name="App" component={App} />
-        <RootStack.Screen name="HelloWorld" component={HelloWorld} />
         <RootStack.Screen name="ChooseStock" component={ChooseStock} />
         <RootStack.Screen name="Webviewer" component={Webviewer} />
         <RootStack.Screen name="Login" component={Login} />

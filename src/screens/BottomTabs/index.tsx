@@ -64,19 +64,8 @@ const BottomTabs = (props: MyProps) => {
 
   const onNewPress = () => {
     if (newIntent >= 0) {
-      switch (newIntent) {
-        case 0:
-          navigation.navigate('EditJira');
-          break;
-        case 1:
-          navigation.navigate('EditPassword');
-          break;
-        case 2:
-          navigation.navigate('EditWallet');
-          break;
-        default:
-          break;
-      }
+      const routes = ['EditJira', 'EditPassword', 'EditWallet'] as const;
+      navigation.navigate(routes[newIntent]);
       setIsShowNewModal(false);
       setNewIntent(-1);
     }

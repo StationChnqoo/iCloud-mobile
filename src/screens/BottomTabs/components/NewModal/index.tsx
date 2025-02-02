@@ -2,15 +2,7 @@ import {BottomSheet, Button, Flex} from '@src/components';
 import {useCaches} from '@src/constants/store';
 import x from '@src/constants/x';
 import {useState} from 'react';
-import {
-  Image,
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 interface MyProps {
   show: boolean;
@@ -27,7 +19,7 @@ const NewModal = (props: MyProps) => {
     {icon: require('./assets/jira.png'), label: 'Jira'},
     {icon: require('./assets/lock.png'), label: '密码'},
     {icon: require('./assets/wallet.png'), label: '钱包'},
-    // {icon: require('./assets/pig.png'), label: '捐赠'},
+    {icon: require('./assets/mark.png'), label: '记事'},
   ];
   const [index, setIndex] = useState(0);
 
@@ -76,7 +68,7 @@ const NewModal = (props: MyProps) => {
             </TouchableOpacity>
           ))}
         </Flex>
-        <View style={{height: 12}} />
+        <View style={{height: 24}} />
         <Flex justify={'flex-end'} horizontal>
           <Button
             style={{
@@ -100,7 +92,7 @@ const NewModal = (props: MyProps) => {
 const styles = StyleSheet.create({
   view: {
     backgroundColor: 'white',
-    padding: 24,
+    padding: 16,
     borderRadius: 15,
     margin: 24,
   },
