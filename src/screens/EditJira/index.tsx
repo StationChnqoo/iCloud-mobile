@@ -6,15 +6,15 @@ import {Button, DeleteableTags, Flex, MoreButton, Star} from '@src/components';
 import ToolBar from '@src/components/ToolBar';
 import {useCaches} from '@src/constants/store';
 import {Jira, JiraSchema} from '@src/constants/t';
-import x from '@src/constants/x';
+import {NextService} from '@src/service';
 import TrifleService from '@src/service/TrifleService';
 import {produce} from 'immer';
 import moment from 'moment';
 import {Divider, ScrollView, useToast} from 'native-base';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {RootStacksParams, RootStacksProp} from '../Screens';
 import PeopleSelectorModal from './components/PeopleSelectorModal';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -66,11 +66,11 @@ const EditJira: React.FC<MyProps> = props => {
   };
 
   const onSave = async () => {
-    if (route.params?.id) {
-      await new TrifleService().updateJira(form);
-    } else {
-      await new TrifleService().insertJira(form);
-    }
+    let jira = produce(form, draft => {
+      // @ts-ignore
+      draft.people = JSON.stringify(draft.people);
+    });
+    let result = await new NextService().mergeJira(jira);
     toast.show({description: '操作成功 ...'});
     navigation.goBack();
   };
@@ -80,14 +80,15 @@ const EditJira: React.FC<MyProps> = props => {
   const loadJira = async () => {
     let _form = JSON.parse(JSON.stringify(form)) as Jira;
     if (route.params?.id) {
-      let result = await new TrifleService().selectJira(route.params.id);
+      let result = await new NextService().selectJira(route.params.id);
       _form = result.data;
+      _form.people = JSON.parse(result.data.people);
     } else {
       _form.createTime = new Date().getTime();
-      _form.id = x.Strings.uuid();
+      let result = await new NextService().selectUUID();
+      _form.id = result.data;
     }
     _form.updateTime = new Date().getTime();
-    delete _form['_id'];
     setForm(_form);
   };
 

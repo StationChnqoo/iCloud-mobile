@@ -2,6 +2,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {Flex} from '@src/components';
 import {useCaches} from '@src/constants/store';
 import {Jira} from '@src/constants/t';
+import {NextService} from '@src/service';
 import TrifleService from '@src/service/TrifleService';
 import {useInfiniteQuery, useQueryClient} from '@tanstack/react-query';
 import moment from 'moment';
@@ -28,9 +29,9 @@ const Works: React.FC<MyProps> = memo(props => {
   const queryClient = useQueryClient();
   const toast = useToast();
 
-  const loadDatas = async (page: number) => {
-    let result = await new TrifleService().selectJiras({
-      page,
+  const loadDatas = async (currentPage: number) => {
+    let result = await new NextService().selectJiras({
+      currentPage,
       pageSize: 10,
     });
     // datas.value = result.data.data;
@@ -45,13 +46,15 @@ const Works: React.FC<MyProps> = memo(props => {
   );
 
   const jiraQuery = useInfiniteQuery({
-    initialPageParam: {page: 1},
+    initialPageParam: {currentPage: 1},
     queryKey: ['jiraQuery'],
     retryOnMount: false,
     refetchOnMount: false,
-    queryFn: params => loadDatas(params.pageParam.page),
+    queryFn: params => loadDatas(params.pageParam.currentPage),
     getNextPageParam: (lastPage, pages) => {
-      return lastPage.hasNext ? {page: lastPage.page + 1} : undefined;
+      return lastPage.hasNext
+        ? {currentPage: lastPage.currentPage + 1}
+        : undefined;
     },
   });
 
@@ -92,9 +95,7 @@ const Works: React.FC<MyProps> = memo(props => {
         <View style={{height: 5}} />
         <Flex horizontal justify="space-between">
           <Text style={{fontSize: 14, color: '#666'}}>{`主要参与: `}</Text>
-          <Text style={{color: '#999', fontSize: 14}}>
-            {JSON.stringify(item.people)}
-          </Text>
+          <Text style={{color: '#999', fontSize: 14}}>{item.people}</Text>
         </Flex>
         <View style={{height: 10}} />
         <Flex horizontal justify="space-between">
@@ -134,7 +135,7 @@ const Works: React.FC<MyProps> = memo(props => {
           />
         }
         ListHeaderComponent={<View style={{height: 1}} />}
-        data={jiraQuery.data?.pages.map(it => it.datas).flat() || []}
+        data={jiraQuery.data?.pages.map(it => it.records).flat() || []}
         onEndReached={() => {
           jiraQuery.fetchNextPage();
         }}

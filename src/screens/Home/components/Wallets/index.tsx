@@ -32,11 +32,8 @@ const Wallets: React.FC<MyProps> = memo(props => {
   const {theme, user, token} = useCaches();
   const queryClient = useQueryClient();
 
-  const loadDatas = async (page: number) => {
-    let result = await new WalletService().selectProperties({
-      page,
-      pageSize: 10,
-    });
+  const loadDatas = async (pageIndex: number) => {
+    let result = await new NextService().selectProperties();
     return result.data;
   };
 

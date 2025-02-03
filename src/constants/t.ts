@@ -102,19 +102,18 @@ export interface OtherCountryStock {
 }
 
 export interface PaginationProps {
-  page: number;
+  currentPage: number;
   pageSize: number;
 }
 
 export const JiraSchema = z.object({
-  _id: z.string().default(''),
   id: z.string().default(''),
   title: z.string().default(''),
   message: z.string().default(''),
   people: z.array(z.string()).default([]),
   version: z.string().default(''),
   complexity: z.number().default(0),
-  completeDate: z.number().default(0),
+  completeDate: z.number().default(new Date().getTime()),
   updateTime: z.number().default(0),
   createTime: z.number().default(0),
   userId: z.string().default(''),
@@ -123,7 +122,6 @@ export const JiraSchema = z.object({
 export type Jira = z.infer<typeof JiraSchema>;
 
 export const PasswordSchema = z.object({
-  _id: z.string().default(''),
   id: z.string().default(''),
   title: z.string().default(''),
   message: z.string().default(''),
