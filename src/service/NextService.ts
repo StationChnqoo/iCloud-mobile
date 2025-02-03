@@ -1,4 +1,4 @@
-import {SHA256} from 'crypto-js';
+import {MD5, SHA256} from 'crypto-js';
 import BaseService from './BaseService';
 
 export default class NextService extends BaseService {
@@ -6,11 +6,19 @@ export default class NextService extends BaseService {
     super();
   }
 
-  async selectLogin(code: string, password: string) {
+  async selectLogin(mobile: string, password: string) {
     // console.log({code, password})
-    let s = SHA256(`${code}:${password}`);
-    let result = await this.instance.get(`/api/share/login`, {
-      params: {code, password, s},
+    let s = MD5(`${mobile}:${password}`);
+    let result = await this.instance.get(`/share/login.do`, {
+      params: {mobile, password, s},
+    });
+    return result.data;
+  }
+
+  async selectUser() {
+    // console.log({code, password})
+    let result = await this.instance.get(`/selectUser.do`, {
+      params: {},
     });
     return result.data;
   }

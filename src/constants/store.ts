@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {create} from 'zustand';
 import {createJSONStorage, devtools, persist} from 'zustand/middleware';
-import {User} from './t';
+import {User, UserSchema} from './t';
 
 interface States {
   user: User;
@@ -19,6 +19,7 @@ interface States {
   clear: () => void;
   token: string;
   setToken: (t: string) => void;
+  quit: () => void;
 }
 
 const initialState = {
@@ -27,8 +28,8 @@ const initialState = {
   isDidiao: false,
   cared: ['100.NDX', '105.SQQQ', '0.300996'],
   global: ['1.000001', '0.399006', '100.NDX', '100.N225'],
-  user: Object.create({}),
-  token: ""
+  user: UserSchema.parse({}),
+  token: '',
 };
 
 const useCaches = create<States>()(
@@ -42,7 +43,10 @@ const useCaches = create<States>()(
         setCared: cared => set({cared}),
         setUser: user => set({user}),
         setGlobal: global => set({global}),
-        setToken: token => ({token}),
+        setToken: token => set({token}),
+        quit: () => {
+          set({token: '', user: UserSchema.parse({})});
+        },
         /** 初始化默认状态 */
         clear: () => {
           set(initialState);
@@ -59,7 +63,7 @@ const useCaches = create<States>()(
           cared: state.cared,
           user: state.user,
           global: state.global,
-          token: state.token
+          token: state.token,
         }),
       },
     ),

@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     height: x.scale(24),
+    textAlign: 'right'
   },
 });
 

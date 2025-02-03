@@ -1,18 +1,12 @@
 import React, {useState} from 'react';
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, StyleSheet, TextInput, View} from 'react-native';
 
 import {Button, Flex} from '@src/components';
 import ToolBar from '@src/components/ToolBar';
 import {useCaches} from '@src/constants/store';
 import x from '@src/constants/x';
 import {NextService} from '@src/service';
+import {useToast} from 'native-base';
 import {RootStacksProp} from '../Screens';
 
 interface MyProps {
@@ -21,20 +15,24 @@ interface MyProps {
 
 const Login: React.FC<MyProps> = props => {
   const {navigation} = props;
-  const {theme, setUser} = useCaches();
+  const {theme, setUser, setToken} = useCaches();
   const [hidePassword, setHidePassword] = useState(true);
-  const [code, setCode] = useState('');
+  const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
+  const toast = useToast();
 
   const submit = async () => {
-    if (code && password) {
-      let result = await new NextService().selectLogin(code, password);
-      if (result.success) {
-        setUser(result.data);
+    if (mobile && password) {
+      let result = await new NextService().selectLogin(mobile, password);
+      if (result?.data) {
+        setToken(result.data);
+        console.log('Token: ', result.data);
         navigation.goBack();
       } else {
+        toast.show({description: '登录失败 ...'});
       }
     } else {
+      toast.show({description: '请填写手机号 / 密码 ...'});
     }
   };
 
@@ -48,7 +46,7 @@ const Login: React.FC<MyProps> = props => {
       />
       <View style={{height: 1, backgroundColor: '#eee'}} />
       <View style={{padding: 16}}>
-        <View style={styles.view}>
+        <Flex justify="space-between" horizontal style={styles.view}>
           <Image
             source={require('@src/assets/images/login/code.png')}
             style={{tintColor: theme, ...styles.icon}}
@@ -60,26 +58,18 @@ const Login: React.FC<MyProps> = props => {
             justify={'space-between'}>
             <TextInput
               style={styles.input}
-              placeholder={'账号'}
+              placeholder={'手机号'}
               numberOfLines={1}
-              onChangeText={setCode}
-              value={code}
+              onChangeText={setMobile}
+              value={mobile}
+              underlineColorAndroid={'transparent'}
             />
           </Flex>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={{padding: 12}}
-            onPress={() => {
-              setCode('');
-            }}>
-            <Image
-              source={require('@src/assets/images/login/clear.png')}
-              style={{...styles.action}}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={{height: 16}} />
-        <View style={styles.view}>
+        </Flex>
+        <View
+          style={{height: 1, marginVertical: 16, backgroundColor: '#ccc'}}
+        />
+        <Flex justify="space-between" horizontal style={styles.view}>
           <Image
             source={require('@src/assets/images/login/password.png')}
             style={{tintColor: theme, ...styles.icon}}
@@ -96,66 +86,51 @@ const Login: React.FC<MyProps> = props => {
               // textContentType={'password'}
               value={password}
               onChangeText={setPassword}
+              underlineColorAndroid={'transparent'}
             />
           </Flex>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={{padding: 12}}
-            onPress={() => {
-              setHidePassword(t => !t);
-            }}>
-            <Image
-              source={
-                hidePassword
-                  ? require('@src/assets/images/login/eye_close.png')
-                  : require('@src/assets/images/login/eye_open.png')
-              }
-              style={{...styles.action}}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={{height: 16}} />
-        <Button
-          style={{
-            height: x.scale(44),
-            backgroundColor: theme,
-            borderRadius: 16,
-          }}
-          textStyle={{fontSize: x.scale(16), color: '#fff'}}
-          title={'登录'}
-          onPress={submit}
+        </Flex>
+        <View
+          style={{height: 1, marginVertical: 16, backgroundColor: '#ccc'}}
         />
+        <Flex horizontal justify="flex-end">
+          <Button
+            style={{
+              height: 44,
+              backgroundColor: theme,
+              borderRadius: 12,
+              paddingHorizontal: 24,
+            }}
+            textStyle={{fontSize: 16, color: '#fff'}}
+            title={'登录'}
+            onPress={submit}
+          />
+        </Flex>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  view: {
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    alignItems: 'center',
-    flexDirection: 'row',
-    height: x.scale(48),
-  },
+  view: {},
   icon: {
     height: x.scale(20),
     width: x.scale(20),
     marginHorizontal: 12,
   },
   action: {
-    height: x.scale(18),
-    width: x.scale(18),
+    height: 18,
+    width: 18,
     tintColor: '#666',
   },
   input: {
-    fontSize: x.scale(16),
+    fontSize: 16,
     paddingVertical: 0,
     flex: 1,
     alignItems: 'center',
     flexDirection: 'row',
-    height: x.scale(24),
+    height: 32,
+    textAlign: 'right',
   },
 });
 
