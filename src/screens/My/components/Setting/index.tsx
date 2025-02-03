@@ -14,12 +14,13 @@ import {useCaches} from '@src/constants/store';
 import x from '@src/constants/x';
 import {Button, Flex} from '@src/components';
 import {produce} from 'immer';
+import Config from 'react-native-config';
 
 interface MyProps {
   navigation?: RootStacksProp;
 }
 
-const Config: React.FC<MyProps> = props => {
+const Setting: React.FC<MyProps> = props => {
   const {isDidiao, setIsDidiao, theme, clear, setTheme} = useCaches();
   const [colors, setColors] = useState([]);
 
@@ -54,7 +55,7 @@ const Config: React.FC<MyProps> = props => {
     <Card title={'设置'}>
       <View style={{height: 5}} />
       <Flex justify={'space-between'} horizontal>
-        <Text style={{fontSize: x.scale(14), color: '#333'}}>低调模式</Text>
+        <Text style={{fontSize: 14, color: '#333'}}>低调模式</Text>
         <Switch
           value={isDidiao}
           onValueChange={() => setIsDidiao(!isDidiao)}
@@ -65,7 +66,7 @@ const Config: React.FC<MyProps> = props => {
       </Flex>
       <View style={{height: 10}} />
       <Flex justify={'space-between'} horizontal>
-        <Text style={{fontSize: x.scale(14), color: '#333'}}>清除数据缓存</Text>
+        <Text style={{fontSize: 14, color: '#333'}}>清除数据缓存</Text>
         <Button
           title={'清除'}
           onPress={onClearPress}
@@ -79,7 +80,7 @@ const Config: React.FC<MyProps> = props => {
       <View style={{height: 10}} />
       <Flex justify={'space-between'} horizontal>
         <Flex horizontal>
-          <Text style={{fontSize: x.scale(14), color: '#333'}}>主题</Text>
+          <Text style={{fontSize: 14, color: '#333'}}>主题</Text>
           <View style={{width: 12}} />
           <Flex horizontal>
             {colors.map((it, i) => (
@@ -105,6 +106,21 @@ const Config: React.FC<MyProps> = props => {
           }}
         />
       </Flex>
+      <View style={{height: 10}} />
+      <Flex horizontal justify="space-between">
+        <Text style={{fontSize: 14, color: '#333'}}>系统变量</Text>
+      </Flex>
+      <View style={{height: 5}} />
+      {Object.keys(Config).map((it, i) => (
+        <Flex
+          key={i}
+          horizontal
+          justify="space-between"
+          style={{marginVertical: 4}}>
+          <Text style={{fontSize: 14, color: '#333'}}>{it}</Text>
+          <Text style={{fontSize: 14, color: '#333'}}>{Config[it]}</Text>
+        </Flex>
+      ))}
     </Card>
   );
 };
@@ -121,10 +137,10 @@ const styles = StyleSheet.create({
     padding: 1,
   },
   button: {
-    height: x.scale(30),
+    height: 32,
     paddingHorizontal: 12,
-    borderRadius: 15,
+    borderRadius: 12,
   },
 });
 
-export default Config;
+export default Setting;

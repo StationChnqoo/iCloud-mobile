@@ -12,19 +12,20 @@ import {
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface MyProps {
-  tabs: {label: string, value: string}[]
+  tabs: {label: string; value: string}[];
   tabIndex: number;
   onTabPress: (t: number) => void;
+  shadow?: boolean;
+  avoidStatusBar?: boolean;
 }
 
 const Tabs: React.FC<MyProps> = props => {
-  const {tabIndex, onTabPress, tabs} = props;
+  const {tabIndex, onTabPress, tabs, shadow, avoidStatusBar} = props;
   const {theme, user} = useCaches();
-  
-  const sideSize = {height: x.scale(48), width: x.scale(48)};
+
   return (
-    <View style={{backgroundColor: '#fff', ...x.Styles.CARD}}>
-      <View style={{height: useSafeAreaInsets().top}} />
+    <View style={{backgroundColor: '#fff', ...(shadow ? x.Styles.CARD : {})}}>
+      <View style={{height: avoidStatusBar ? useSafeAreaInsets().top : 0}} />
       <ScrollView horizontal bounces={false}>
         <Flex style={{gap: 15, paddingHorizontal: 15, height: 52}} horizontal>
           {tabs.map((it, i) => (

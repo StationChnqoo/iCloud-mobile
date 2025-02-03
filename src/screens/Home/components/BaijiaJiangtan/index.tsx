@@ -1,42 +1,59 @@
 import {useCaches} from '@src/constants/store';
 import {useQueryClient} from '@tanstack/react-query';
 import {useToast} from 'native-base';
-import React, {memo, useRef} from 'react';
+import React, {memo, useMemo, useRef, useState} from 'react';
 import {Platform, StyleSheet, View} from 'react-native';
 import VideoPlayer, {type VideoPlayerRef} from 'react-native-video-player';
+import Tabs from '../Tabs';
+import Albums from './components/Albums';
+import Scholars from './components/Scholars';
+import Videos from './components/Videos';
 
-interface MyProps {}
+interface MyProps {
+  onNewPress: () => void;
+}
 
 const BaijiaJiangtan: React.FC<MyProps> = memo(props => {
-  const {} = props;
+  const {onNewPress} = props;
   const {theme, user} = useCaches();
   const queryClient = useQueryClient();
   const toast = useToast();
   const playerRef = useRef<VideoPlayerRef>(null);
+  const [tabIndex, setIndex] = useState(0);
+
+  const tabs = useMemo(
+    () => [
+      {
+        label: '专辑',
+        value: 'albums',
+        component: <Albums key="albums" onNewPress={onNewPress} />,
+      },
+      {
+        label: '学者',
+        value: 'scholars',
+        component: <Scholars key="passwords" />,
+      },
+      {
+        label: '原始数据',
+        value: 'wallet',
+        component: <Videos key="videos" />,
+      },
+    ],
+    [],
+  );
 
   return (
     <View style={{flex: 1}}>
-      <VideoPlayer
-        ref={playerRef}
-        // endWithThumbnail
-        // thumbnail={{
-        //   uri: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg',
-        // }}
-        // disableControlsAutoHide
-        autoplay={true}
-        repeat
-        showDuration={true}
-        disableFullscreen={Platform.OS == 'android'}
-        customStyles={{
-          wrapper: {backgroundColor: '#000'},
-        }}
-        source={{
-          uri: 'https://newcntv.qcloudcdn.com/asp/hls/main/0303000a/3/default/2954241d2c084dc05f90b890b53839eb/main.m3u8?maxbr=2048',
-        }}
-        onError={() => {
-          toast.show({description: '播放失败 ...'});
-        }}
-      />
+      <Tabs tabs={tabs} onTabPress={setIndex} tabIndex={tabIndex} />
+      <View style={{flex: 1}}>
+        {tabs.map((it, i) => (
+          <View
+            key={i}
+            style={{display: i == tabIndex ? 'flex' : 'none', flex: 1}}>
+            {tabs[i].component}
+          </View>
+        ))}
+      </View>
     </View>
   );
 });

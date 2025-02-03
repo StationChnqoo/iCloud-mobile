@@ -1,13 +1,16 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
 
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+
 react {
 }
 
 def enableProguardInReleaseBuilds = false
 def jscFlavor = 'org.webkit:android-jsc:+'
-def appName = project.hasProperty('appName') ? project.appName : "iCloud"
-def packageName = project.hasProperty('packageName') ? project.packageName : "com.icloud"
+def appName = project.env.get("APP_NAME") ?: "iCloudUnknown"
+def timeStamp = new Date().format("yyyyMMdd_HHmmss")
+def packageName = project.env.get("APP_PACKAGE_NAME") ?: "com.icloud"
 
 android {
     ndkVersion rootProject.ext.ndkVersion
@@ -21,7 +24,7 @@ android {
         versionCode 1
         versionName "1.0"
         resValue "string", "app_name", appName
-        resValue "string", "build_config_package", packageName
+        resValue "string", "build_config_package", "com.icloud"
         // 支持的 ABI 架构
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86"

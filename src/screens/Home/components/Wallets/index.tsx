@@ -29,7 +29,7 @@ interface MyProps {
 
 const Wallets: React.FC<MyProps> = memo(props => {
   const {onItemPress} = props;
-  const {theme, user} = useCaches();
+  const {theme, user, token} = useCaches();
   const queryClient = useQueryClient();
 
   const loadDatas = async (page: number) => {
@@ -53,7 +53,7 @@ const Wallets: React.FC<MyProps> = memo(props => {
 
   const propertyQuery = useQuery({
     queryKey: ['propertyQuery'],
-    enabled: user?.token ? true : false,
+    enabled: token ? true : false,
     queryFn: () => new NextService().selectProperties(),
   });
 

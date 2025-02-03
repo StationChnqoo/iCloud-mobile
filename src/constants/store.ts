@@ -17,6 +17,8 @@ interface States {
   global: string[];
   setGlobal: (global: string[]) => void;
   clear: () => void;
+  token: string;
+  setToken: (t: string) => void;
 }
 
 const initialState = {
@@ -26,6 +28,7 @@ const initialState = {
   cared: ['100.NDX', '105.SQQQ', '0.300996'],
   global: ['1.000001', '0.399006', '100.NDX', '100.N225'],
   user: Object.create({}),
+  token: ""
 };
 
 const useCaches = create<States>()(
@@ -39,6 +42,7 @@ const useCaches = create<States>()(
         setCared: cared => set({cared}),
         setUser: user => set({user}),
         setGlobal: global => set({global}),
+        setToken: token => ({token}),
         /** 初始化默认状态 */
         clear: () => {
           set(initialState);
@@ -55,6 +59,7 @@ const useCaches = create<States>()(
           cared: state.cared,
           user: state.user,
           global: state.global,
+          token: state.token
         }),
       },
     ),

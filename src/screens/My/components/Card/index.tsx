@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   text: {
-    fontSize: x.scale(16),
+    fontSize: 16,
     fontWeight: '500',
     color: '#333',
   },

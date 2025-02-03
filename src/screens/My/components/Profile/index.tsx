@@ -11,14 +11,14 @@ interface MyProps {
 }
 
 const Profile: React.FC<MyProps> = props => {
-  const {theme, setTheme, user} = useCaches();
+  const {theme, setTheme, user, token} = useCaches();
   const {onLoginPress} = props;
 
   useEffect(() => {
     return function () {};
   }, []);
 
-  const logined = user?.token ? true : false;
+  const logined = token ? true : false;
   // const logined = true;
   return (
     <Card title={'😄こんにちは'}>

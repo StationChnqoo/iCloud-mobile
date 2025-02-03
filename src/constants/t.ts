@@ -56,10 +56,10 @@ export interface User {
   _id: string;
   id: string;
   name: string;
-  code: string;
   password: string;
-  token: string;
   avatar: string;
+  createTime: string;
+  updateTime: string;
 }
 
 export enum LoginInputAction {

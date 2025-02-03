@@ -4,10 +4,10 @@ import {Alert, ScrollView, StyleSheet, View} from 'react-native';
 import {useCaches} from '@src/constants/store';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {RootStacksProp} from '../Screens';
-import Stocks from './components/Stocks';
-import Config from './components/Config';
-import Profile from './components/Profile';
 import Global from './components/Global';
+import Profile from './components/Profile';
+import Setting from './components/Setting';
+import Stocks from './components/Stocks';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -57,7 +57,7 @@ const My: React.FC<MyProps> = props => {
               }}
             />,
             // <Color />,
-            <Config />,
+            <Setting />,
           ].map((it, i) => (
             <View key={i} style={{marginVertical: 6}}>
               {it}
